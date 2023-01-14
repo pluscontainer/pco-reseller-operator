@@ -3,10 +3,10 @@ package controllers
 import (
 	"context"
 
-	"git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1"
-	"git.ps-intern.de/mk/gardener/pco-reseller-operator/internal/utils"
 	"github.com/Wieneo/pco-reseller-cli/v2/pkg/psos"
 	"github.com/go-logr/logr"
+	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
+	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

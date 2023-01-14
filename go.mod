@@ -1,4 +1,4 @@
-module git.ps-intern.de/mk/gardener/pco-reseller-operator
+module github.com/plusserver/pluscloudopen-reseller-operator
 
 go 1.19
 

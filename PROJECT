@@ -5,7 +5,7 @@ plugins:
   manifests.sdk.operatorframework.io/v2: {}
   scorecard.sdk.operatorframework.io/v2: {}
 projectName: pco-reseller-operator
-repo: git.ps-intern.de/mk/gardener/pco-reseller-operator
+repo: github.com/plusserver/pluscloudopen-reseller-operator
 resources:
 - api:
     crdVersion: v1
@@ -14,7 +14,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: Project
-  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  path: github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
@@ -27,7 +27,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: Region
-  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  path: github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
@@ -40,7 +40,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: User
-  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  path: github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
@@ -53,7 +53,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: UserProjectBinding
-  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  path: github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
