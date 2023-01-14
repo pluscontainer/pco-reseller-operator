@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	"git.ps-intern.de/mk/gardener/pco-reseller-operator/internal/utils"
+	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"

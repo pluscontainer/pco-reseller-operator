@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1"
 	"github.com/go-logr/logr"
+	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 

@@ -1,0 +1,51 @@
+name: Release HELM Charts
+
+on:
+  push:
+    tags: [ 'v*.*.*' ]
+
+jobs:
+  release:
+    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.10.0
+
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Patch version into chart
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i ".version = \"${{ env.RELEASE_VERSION }}\"" $CI_PROJECT_DIR/charts/pco-reseller-operator/Chart.yaml
+
+      - name: Patch appVersion into chart
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i ".appVersion = \"${{ env.RELEASE_VERSION }}\"" $CI_PROJECT_DIR/charts/pco-reseller-operator/Chart.yaml
+
+      - name: Patch image version into chart
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq -i ".controllerManager.manager.image.tag = \"${{ env.RELEASE_VERSION }}\"" $CI_PROJECT_DIR/charts/pco-reseller-operator/values.yaml
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.4.1
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

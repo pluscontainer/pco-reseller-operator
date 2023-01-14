@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"git.ps-intern.de/mk/gardener/pco-reseller-operator/internal/utils"
+	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"

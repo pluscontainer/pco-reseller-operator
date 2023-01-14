@@ -12,7 +12,7 @@ controllerManager:
         memory: 64Mi
   manager:
     image:
-      repository: public-cloud-docker-general.psmanaged.com/plusserver/mk-gardener-pco-reseller-operator
+      repository: ghcr.io/plusserver/pluscloudopen-reseller-operator
       tag: dev
     resources:
       limits:

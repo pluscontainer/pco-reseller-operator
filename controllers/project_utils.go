@@ -3,7 +3,7 @@ package controllers
 import (
 	"context"
 
-	"git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1"
+	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/api/meta"
 )
 
