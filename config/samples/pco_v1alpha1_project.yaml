@@ -1,0 +1,34 @@
+apiVersion: pco.plusserver.com/v1alpha1
+kind: Project
+metadata:
+  name: project-sample
+spec:
+  region: prod1
+  #Description will be defaulted if not specified
+  description: My special project
+  #Quotas will be defaulted if not specified
+  quotas:
+    compute:
+      cores: 64
+      floating_ips: 10
+      instances: 64
+      key_pairs: 500
+      metadata_items: 100
+      ram: 262144
+      security_group_rules: 500
+      security_groups: 500
+      server_group_members: 15
+      server_groups: 10
+    network:
+      floatingip: 10
+      network: 10
+      router: 10
+      security_group: 500
+      security_group_rule: 500
+      subnet: 100
+    volume:
+      backup_gigabytes: 2000
+      backups: 99
+      gigabytes: 2000
+      snapshots: 99
+      volumes: 500

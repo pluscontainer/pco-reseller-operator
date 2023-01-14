@@ -1,0 +1,141 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "pco-reseller-operator.fullname" . }}-manager-role
+  labels:
+  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - projects
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - projects/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - projects/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - regions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - regions/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - regions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - userprojectbindings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - userprojectbindings/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - userprojectbindings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - users
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - users/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - users/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "pco-reseller-operator.fullname" . }}-manager-rolebinding
+  labels:
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: pco-reseller-operator
+    app.kubernetes.io/part-of: pco-reseller-operator
+  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: '{{ include "pco-reseller-operator.fullname" . }}-manager-role'
+subjects:
+- kind: ServiceAccount
+  name: '{{ include "pco-reseller-operator.fullname" . }}-controller-manager'
+  namespace: '{{ .Release.Namespace }}'

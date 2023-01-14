@@ -1,0 +1,7 @@
+apiVersion: pco.plusserver.com/v1alpha1
+kind: UserProjectBinding
+metadata:
+  name: userprojectbinding-sample
+spec:
+  user: user-sample
+  project: project-sample

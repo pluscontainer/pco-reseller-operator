@@ -1,0 +1,62 @@
+domain: plusserver.com
+layout:
+- go.kubebuilder.io/v4-alpha
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: pco-reseller-operator
+repo: git.ps-intern.de/mk/gardener/pco-reseller-operator
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: plusserver.com
+  group: pco
+  kind: Project
+  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: plusserver.com
+  group: pco
+  kind: Region
+  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: plusserver.com
+  group: pco
+  kind: User
+  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: plusserver.com
+  group: pco
+  kind: UserProjectBinding
+  path: git.ps-intern.de/mk/gardener/pco-reseller-operator/api/v1alpha1
+  version: v1alpha1
+  webhooks:
+    defaulting: true
+    validation: true
+    webhookVersion: v1
+version: "3"

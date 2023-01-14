@@ -1,0 +1,4 @@
+apiVersion: pco.plusserver.com/v1alpha1
+kind: User
+metadata:
+  name: user-sample

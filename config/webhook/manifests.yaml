@@ -1,0 +1,154 @@
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-pco-plusserver-com-v1alpha1-project
+  failurePolicy: Fail
+  name: mproject.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - projects
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-pco-plusserver-com-v1alpha1-region
+  failurePolicy: Fail
+  name: mregion.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - regions
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-pco-plusserver-com-v1alpha1-user
+  failurePolicy: Fail
+  name: muser.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - users
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-pco-plusserver-com-v1alpha1-project
+  failurePolicy: Fail
+  name: vproject.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - projects
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-pco-plusserver-com-v1alpha1-region
+  failurePolicy: Fail
+  name: vregion.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - regions
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-pco-plusserver-com-v1alpha1-user
+  failurePolicy: Fail
+  name: vuser.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - users
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-pco-plusserver-com-v1alpha1-userprojectbinding
+  failurePolicy: Fail
+  name: vuserprojectbinding.kb.io
+  rules:
+  - apiGroups:
+    - pco.plusserver.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - userprojectbindings
+  sideEffects: None

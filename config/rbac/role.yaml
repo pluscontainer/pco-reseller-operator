@@ -1,0 +1,123 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - projects
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - projects/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - projects/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - regions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - regions/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - regions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - userprojectbindings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - userprojectbindings/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - userprojectbindings/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - users
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - users/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - pco.plusserver.com
+  resources:
+  - users/status
+  verbs:
+  - get
+  - patch
+  - update

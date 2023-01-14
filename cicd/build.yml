@@ -1,0 +1,18 @@
+Build HELM Chart:
+  stage: operator-helm
+  image: public-cloud-docker-general.psmanaged.com/plusserver/gardener-helper:v1.0.15
+  script:
+    - yq -i ".version = \"${CI_COMMIT_TAG}\"" $CI_PROJECT_DIR/charts/pco-reseller-operator/Chart.yaml
+    - yq -i ".appVersion = \"${CI_COMMIT_TAG}\"" $CI_PROJECT_DIR/charts/pco-reseller-operator/Chart.yaml
+    - yq -i ".controllerManager.manager.image.tag = \"${CI_COMMIT_TAG}\""  $CI_PROJECT_DIR/charts/pco-reseller-operator/values.yaml
+    - helm lint $CI_PROJECT_DIR/charts/pco-reseller-operator
+    - helm package $CI_PROJECT_DIR/charts/pco-reseller-operator -d $CI_PROJECT_DIR/
+
+    - vault read -format json secret/plusserver/mk/gardener/nexus-helm-gardener | jq ".data" > /tmp/access
+    - export USERNAME=$( cat /tmp/access | jq ".username" | tr -d '"' )
+    - export PASSWORD=$( cat /tmp/access | jq ".password" | tr -d '"' )
+    - export URL=$( cat /tmp/access | jq ".url" | tr -d '"' )
+
+    - curl -f -u "$USERNAME":"$PASSWORD" "$URL" --upload-file pco-reseller-operator-*.tgz
+  rules:
+    - if: $CI_COMMIT_TAG
