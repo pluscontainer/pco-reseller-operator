@@ -1,8 +1,0 @@
-stages:
-  - image-build
-  - operator-helm
-
-include:
-  - local: "cicd/build.yml"
-  - project: mk/ci-cd-templates
-    file: kaniko.yml
