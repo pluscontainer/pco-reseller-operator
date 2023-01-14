@@ -33,17 +33,17 @@ jobs:
       - name: Patch version into chart
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.version = "${{ env.RELEASE_VERSION }}"' $CI_PROJECT_DIR/charts/pco-reseller-operator/Chart.yaml
+          cmd: yq -i '.version = "${{ env.RELEASE_VERSION }}"' charts/pco-reseller-operator/Chart.yaml
 
       - name: Patch appVersion into chart
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.appVersion = "${{ env.RELEASE_VERSION }}"' $CI_PROJECT_DIR/charts/pco-reseller-operator/Chart.yaml
+          cmd: yq -i '.appVersion = "${{ env.RELEASE_VERSION }}"' charts/pco-reseller-operator/Chart.yaml
 
       - name: Patch image version into chart
         uses: mikefarah/yq@master
         with:
-          cmd: yq -i '.controllerManager.manager.image.tag = "${{ env.RELEASE_VERSION }}"' $CI_PROJECT_DIR/charts/pco-reseller-operator/values.yaml
+          cmd: yq -i '.controllerManager.manager.image.tag = "${{ env.RELEASE_VERSION }}"' charts/pco-reseller-operator/values.yaml
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.1
