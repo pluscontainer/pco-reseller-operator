@@ -3,8 +3,8 @@ package controllers
 import (
 	"context"
 
-	"github.com/Wieneo/pco-reseller-cli/v2/pkg/psos"
 	"github.com/go-logr/logr"
+	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/psos"
 	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/types"
