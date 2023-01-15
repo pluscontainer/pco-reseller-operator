@@ -30,9 +30,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	"github.com/Wieneo/pco-reseller-cli/v2/pkg/openapi"
-	"github.com/Wieneo/pco-reseller-cli/v2/pkg/psos"
 	oapi_types "github.com/deepmap/oapi-codegen/pkg/types"
+	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/openapi"
+	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/psos"
 	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	pcov1alpha1 "github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"

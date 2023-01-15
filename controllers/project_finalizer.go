@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/Wieneo/pco-reseller-cli/v2/pkg/psos"
 	"github.com/go-logr/logr"
+	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/psos"
 	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
 	k8errors "k8s.io/apimachinery/pkg/api/errors"
