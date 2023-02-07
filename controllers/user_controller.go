@@ -135,7 +135,7 @@ func (r *UserReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 
 		isTrue := true
 
-		generatedPassword, err := password.Generate(32, 5, 5, false, false)
+		generatedPassword, err := password.Generate(32, 5, 0, false, false)
 		if err != nil {
 			return ctrl.Result{}, err
 		}
