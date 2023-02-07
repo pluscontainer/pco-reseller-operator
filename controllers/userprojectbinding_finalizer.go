@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-logr/logr"
 	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/psos"
 	"github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
 	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
+	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -17,6 +19,11 @@ func (r *UserProjectBindingReconciler) finalizeUPB(ctx context.Context, logger l
 		Namespace: upb.Namespace,
 		Name:      upb.Spec.User,
 	}, user); err != nil {
+		if errors.IsNotFound(err) {
+			logger.Info(fmt.Sprintf("User %s not present, UPB can be deleted", upb.Spec.User))
+			return nil
+		}
+
 		return err
 	}
 
@@ -25,6 +32,10 @@ func (r *UserProjectBindingReconciler) finalizeUPB(ctx context.Context, logger l
 		Namespace: upb.Namespace,
 		Name:      upb.Spec.Project,
 	}, project); err != nil {
+		if errors.IsNotFound(err) {
+			logger.Info(fmt.Sprintf("Project %s not present, UPB can be deleted", upb.Spec.Project))
+			return nil
+		}
 		return err
 	}
 
