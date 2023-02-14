@@ -60,6 +60,11 @@ func (r *UserProjectBindingReconciler) finalizeUPB(ctx context.Context, logger l
 		Name:      project.Name,
 	}))
 	if err != nil {
+		if err == utils.ErrOpenStackProjectNotFound {
+			logger.Info(fmt.Sprintf("Project %s not present within OpenStack, UPB can be deleted", upb.Spec.Project))
+			return nil
+		}
+
 		return err
 	}
 
@@ -71,6 +76,11 @@ func (r *UserProjectBindingReconciler) finalizeUPB(ctx context.Context, logger l
 	//Get referenced user
 	openStackUser, err := utils.GetOpenStackUser(ctx, psOsClient, *mail)
 	if err != nil {
+		if err == utils.ErrOpenStackUserNotFound {
+			logger.Info(fmt.Sprintf("User %s not present within OpenStack, UPB can be deleted", upb.Spec.Project))
+			return nil
+		}
+
 		return err
 	}
 
