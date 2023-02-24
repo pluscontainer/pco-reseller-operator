@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright © 2023 PlusServer GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ limitations under the License.
 package v1alpha1
 
 import (
-	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
+	"github.com/pluscloudopen/reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"

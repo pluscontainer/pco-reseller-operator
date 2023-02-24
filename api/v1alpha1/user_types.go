@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright © 2023 PlusServer GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/plusserver/pluscloudopen-reseller-operator/internal/utils"
+	"github.com/pluscloudopen/reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"

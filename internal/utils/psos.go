@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	oapi_types "github.com/deepmap/oapi-codegen/pkg/types"
-	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/openapi"
-	"github.com/plusserver/pluscloudopen-reseller-cli/v2/pkg/psos"
+	"github.com/pluscloudopen/reseller-cli/v2/pkg/openapi"
+	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
 	"k8s.io/apimachinery/pkg/types"
 )
 

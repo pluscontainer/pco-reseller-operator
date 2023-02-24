@@ -1,5 +1,5 @@
 /*
-Copyright 2023.
+Copyright © 2023 PlusServer GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	pcov1alpha1 "github.com/plusserver/pluscloudopen-reseller-operator/api/v1alpha1"
+	pcov1alpha1 "github.com/pluscloudopen/reseller-operator/api/v1alpha1"
 	//+kubebuilder:scaffold:imports
 )
 

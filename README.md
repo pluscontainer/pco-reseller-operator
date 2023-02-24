@@ -1,6 +1,6 @@
-# PlusCloud Open Reseller Operator
+# pluscloud open Reseller Operator
 
-The pco-reseller-operator allows Kubernetes Operators / Users to manage projects within our PlusCloud Open via easy to handle Kubernetes manifests.
+The pco-reseller-operator allows Kubernetes Operators / Users to manage projects within our pluscloud open via easy to handle Kubernetes manifests.
 
 ## CRDs
 This operator implements / acts on 4 CRDs:
@@ -16,7 +16,7 @@ It specifies the URL of the Reseller API and the username and password used to a
 An example can be found [here](./config/samples/pco_v1alpha1_region.yaml)
 
 ### Project
-A Project is exactly what it says: A project within our PlusCloud Open.
+A Project is exactly what it says: A project within our pluscloud open.
 
 An example can be found [here](./config/samples/pco_v1alpha1_project.yaml)
 
@@ -37,7 +37,7 @@ A user can be bound to multiple projects across regions.
 
 An example can be found [here](./config/samples/pco_v1alpha1_userprojectbinding.yaml)
 
-## The problem of uniqnuess
+## The problem of uniqueness
 We wanted to support running multiple deployments of this operator across multiple clusters but this comes with a challenge:
 How do we make projects and users within OpenStack unique?
 Nothing would prevent the creation of the same user in the same namespace on multiple clusters.

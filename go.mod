@@ -1,4 +1,4 @@
-module github.com/plusserver/pluscloudopen-reseller-operator
+module github.com/pluscloudopen/reseller-operator
 
 go 1.19
 
@@ -58,7 +58,7 @@ require (
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/plusserver/pluscloudopen-reseller-cli/v2 v2.0.0-20230213095405-a935033ea033 // indirect
+	github.com/pluscloudopen/reseller-cli/v2 v2.0.0-20230213095405-a935033ea033 // indirect
 	github.com/prometheus/client_golang v1.12.2 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common v0.32.1 // indirect

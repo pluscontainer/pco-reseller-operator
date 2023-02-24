@@ -351,10 +351,10 @@ github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINE
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
-github.com/plusserver/pluscloudopen-reseller-cli/v2 v2.0.0-20230115112722-0a5e1caa1a98 h1:jUm2dWb7S5EWOwkTNAjtg3CG8Gccc9yfEyBKmBx4uNI=
-github.com/plusserver/pluscloudopen-reseller-cli/v2 v2.0.0-20230115112722-0a5e1caa1a98/go.mod h1:2hyzCLHmrVlPzHsJtI7yXvXzZQAabJHjZ0ep06eUZ3A=
-github.com/plusserver/pluscloudopen-reseller-cli/v2 v2.0.0-20230213095405-a935033ea033 h1:RQQfVdBTGWHFHS8p9bSgoEUkjg+14hzrq8eyPa5S1sU=
-github.com/plusserver/pluscloudopen-reseller-cli/v2 v2.0.0-20230213095405-a935033ea033/go.mod h1:1Tnsqh2+C0Ujcrepc1HaaYQwY+neBI97MyLOoKy5aUI=
+github.com/pluscloudopen/reseller-cli/v2 v2.0.0-20230115112722-0a5e1caa1a98 h1:jUm2dWb7S5EWOwkTNAjtg3CG8Gccc9yfEyBKmBx4uNI=
+github.com/pluscloudopen/reseller-cli/v2 v2.0.0-20230115112722-0a5e1caa1a98/go.mod h1:2hyzCLHmrVlPzHsJtI7yXvXzZQAabJHjZ0ep06eUZ3A=
+github.com/pluscloudopen/reseller-cli/v2 v2.0.0-20230213095405-a935033ea033 h1:RQQfVdBTGWHFHS8p9bSgoEUkjg+14hzrq8eyPa5S1sU=
+github.com/pluscloudopen/reseller-cli/v2 v2.0.0-20230213095405-a935033ea033/go.mod h1:1Tnsqh2+C0Ujcrepc1HaaYQwY+neBI97MyLOoKy5aUI=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/prometheus/client_golang v0.9.1/go.mod h1:7SWBe2y4D6OKWSNQJUaRYU/AaXPKyh/dDVn+NZz0KFw=
