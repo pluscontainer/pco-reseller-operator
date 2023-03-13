@@ -74,7 +74,7 @@ func (r *ProjectReconciler) finalizeProject(ctx context.Context, logger logr.Log
 		}
 
 		//If OpenStack Project is already gone -> Done
-		logger.Info(fmt.Sprintf("OpenStack Project %s already gone", openStackProject.Id))
+		logger.Info(fmt.Sprintf("OpenStack Project %s already gone", openStackProjectName))
 		return nil
 	}
 
