@@ -88,7 +88,7 @@ func (r *RegionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 				}
 
 				//Projects are still referencing region
-				return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+				return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 			}
 
 			// Remove controllerFinalizer. Once all finalizers have been
