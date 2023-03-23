@@ -124,7 +124,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 
 		logger.Info(fmt.Sprintf("User %s not found, waiting for user to appear", upb.Spec.User))
-		return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
 	if !user.IsReady() {
@@ -133,7 +133,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 
 		logger.Info(fmt.Sprintf("User %s isn't ready", upb.Spec.User))
-		return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
 	//Set user condition ready
@@ -160,7 +160,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 
 		logger.Info(fmt.Sprintf("Project %s not found, waiting for project to appear", upb.Spec.Project))
-		return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
 	if !project.IsReady() {
@@ -169,7 +169,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 
 		logger.Info(fmt.Sprintf("Project %s isn't ready", upb.Spec.Project))
-		return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
 	//Set project condition ready

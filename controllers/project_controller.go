@@ -91,7 +91,7 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 				}
 
 				//Users are still referencing project
-				return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+				return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 			}
 
 			// Remove controllerFinalizer. Once all finalizers have been
@@ -139,7 +139,7 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		}
 
 		//Wait for region to become ready -> Requeue request
-		return ctrl.Result{RequeueAfter: time.Duration(1) * time.Minute}, nil
+		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
 	if err := project.UpdateRegionCondition(ctx, r.Client, v1alpha1.RegionIsReady, fmt.Sprintf("Region %s is ready", region.Name)); err != nil {
