@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   pco-reseller-operator:
   - apiVersion: v2
+    appVersion: v0.2.0
+    created: "2023-03-31T08:31:20.70139484Z"
+    description: A Helm chart for Kubernetes
+    digest: 5fff109e700f696b7a65a31c6675382e2347b27cdfd838e9c9deb45fa5b9eac8
+    name: pco-reseller-operator
+    type: application
+    urls:
+    - https://github.com/pluscloudopen/reseller-operator/releases/download/pco-reseller-operator-v0.2.0/pco-reseller-operator-v0.2.0.tgz
+    version: v0.2.0
+  - apiVersion: v2
     appVersion: v0.1.0
     created: "2023-03-23T08:05:53.809765999Z"
     description: A Helm chart for Kubernetes
@@ -81,4 +91,4 @@ entries:
     urls:
     - https://github.com/plusserver/pluscloudopen-reseller-operator/releases/download/pco-reseller-operator-v0.0.1/pco-reseller-operator-v0.0.1.tgz
     version: v0.0.1
-generated: "2023-03-23T08:05:53.812271034Z"
+generated: "2023-03-31T08:31:20.701463341Z"
