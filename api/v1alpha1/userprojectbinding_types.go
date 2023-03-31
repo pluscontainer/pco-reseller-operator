@@ -18,6 +18,7 @@ package v1alpha1
 
 import (
 	"context"
+	"fmt"
 
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -27,8 +28,9 @@ import (
 
 // UserProjectBindingSpec defines the desired state of UserProjectBinding
 type UserProjectBindingSpec struct {
-	Project string `json:"project,omitempty"`
-	User    string `json:"user,omitempty"`
+	Project               string `json:"project"`
+	User                  string `json:"user"`
+	ApplicationCredential bool   `json:"applicationCredential,omitempty"`
 }
 
 // UserProjectBindingStatus defines the observed state of UserProjectBinding
@@ -75,6 +77,10 @@ type UserProjectBinding struct {
 
 	Spec   UserProjectBindingSpec   `json:"spec,omitempty"`
 	Status UserProjectBindingStatus `json:"status,omitempty"`
+}
+
+func (upb UserProjectBinding) ApplicationCredentialName() string {
+	return fmt.Sprintf("%s-appcred", upb.Name)
 }
 
 //+kubebuilder:object:root=true

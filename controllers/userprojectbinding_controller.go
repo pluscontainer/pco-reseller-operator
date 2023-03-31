@@ -267,6 +267,16 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		logger.Info(fmt.Sprintf("Added user %s to project %s", openStackUser.Id, openStackProject.Id))
 	}
 
+	if upb.Spec.ApplicationCredential {
+		if err := r.ensureApplicationCredential(ctx, logger, upb, *region, *openStackProject, openStackUser.Id, string(userAccessSecret.Data[secretUsernameKey]), string(userAccessSecret.Data[secretPasswordKey])); err != nil {
+			return ctrl.Result{}, err
+		}
+	} else {
+		if err := r.deprovisionApplicationCredential(ctx, logger, upb, *region, *openStackProject, openStackUser.Id, string(userAccessSecret.Data[secretUsernameKey]), string(userAccessSecret.Data[secretPasswordKey])); err != nil {
+			return ctrl.Result{}, err
+		}
+	}
+
 	upb.UpdateUserProjectBindingCondition(ctx, r.Client, pcov1alpha1.UserProjectBindingIsReady, "UPB ensured")
 
 	logger.Info("Reconciling finished")
