@@ -36,10 +36,15 @@ spec:
           spec:
             description: UserProjectBindingSpec defines the desired state of UserProjectBinding
             properties:
+              applicationCredential:
+                type: boolean
               project:
                 type: string
               user:
                 type: string
+            required:
+            - project
+            - user
             type: object
           status:
             description: UserProjectBindingStatus defines the observed state of UserProjectBinding
