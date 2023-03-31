@@ -8,6 +8,7 @@ import (
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
 	"github.com/pluscloudopen/reseller-operator/api/v1alpha1"
 	"github.com/pluscloudopen/reseller-operator/internal/utils"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -82,6 +83,20 @@ func (r *UserProjectBindingReconciler) finalizeUPB(ctx context.Context, logger l
 		}
 
 		return err
+	}
+
+	//Try to delete application credential
+	userAccessSecret := &v1.Secret{}
+	if err := r.Get(ctx, user.UserAccessSecretName(), userAccessSecret); err != nil {
+		if !errors.IsNotFound(err) {
+			return err
+		}
+
+		logger.Info("Can't delete application credential as user access credentials are gone")
+	} else {
+		if err := r.deprovisionApplicationCredential(ctx, logger, &upb, *region, *openStackProject, openStackUser.Id, string(userAccessSecret.Data[secretUsernameKey]), string(userAccessSecret.Data[secretPasswordKey])); err != nil {
+			return err
+		}
 	}
 
 	if err := psOsClient.RemoveUserFromProject(ctx, openStackProject.Id, openStackUser.Id); err != nil {
