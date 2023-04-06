@@ -43,6 +43,8 @@ type ProjectReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+const regionTimeout = 1 * time.Minute
+
 //+kubebuilder:rbac:groups=pco.plusserver.com,resources=projects,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=pco.plusserver.com,resources=projects/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=pco.plusserver.com,resources=projects/finalizers,verbs=update
@@ -133,13 +135,13 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 
 	//Check if region is ready
 
-	if !region.IsReady() {
+	if awaitErr := region.AwaitReady(ctx, regionTimeout, r.Client, logger); awaitErr != nil {
 		if err := project.UpdateRegionCondition(ctx, r.Client, v1alpha1.RegionIsUnready, "Referenced region isn't ready"); err != nil {
 			return ctrl.Result{}, err
 		}
 
 		//Wait for region to become ready -> Requeue request
-		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
+		return ctrl.Result{}, awaitErr
 	}
 
 	if err := project.UpdateRegionCondition(ctx, r.Client, v1alpha1.RegionIsReady, fmt.Sprintf("Region %s is ready", region.Name)); err != nil {
