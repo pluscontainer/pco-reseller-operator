@@ -18,10 +18,14 @@ package v1alpha1
 
 import (
 	"context"
+	"time"
 
+	"github.com/go-logr/logr"
+	"github.com/pluscloudopen/reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -40,8 +44,39 @@ type RegionStatus struct {
 	Conditions []metav1.Condition `json:"conditions"`
 }
 
-func (r *Region) IsReady() bool {
-	return meta.IsStatusConditionTrue(r.Status.Conditions, string(RegionReady))
+func (v *Region) AwaitReady(ctx context.Context, timeout time.Duration, client client.Client, logger logr.Logger) error {
+	timeoutContext, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	out := make(chan bool)
+
+	go v.awaitAllConditionsTrue(timeoutContext, client, logger, out)
+
+	select {
+	case <-out:
+		return nil
+	case <-timeoutContext.Done():
+		return timeoutContext.Err()
+	}
+}
+
+func (v *Region) awaitAllConditionsTrue(ctx context.Context, client client.Client, logger logr.Logger, out chan bool) {
+	for !utils.AllConditionsTrue(v.Status.Conditions) {
+		//Check if the context is still good
+		if ctx.Err() != nil {
+			return
+		}
+
+		//Wait before refreshing object
+		time.Sleep(3 * time.Second)
+
+		//Refresh object
+		if err := client.Get(ctx, types.NamespacedName{Namespace: v.Namespace, Name: v.Name}, v); err != nil {
+			logger.Error(err, "Couldn't refresh conditions")
+		}
+	}
+
+	out <- true
 }
 
 func (r *Region) UpdateRegionCondition(ctx context.Context, reconcileClient client.Client, reason RegionReadyReasons, message string) error {

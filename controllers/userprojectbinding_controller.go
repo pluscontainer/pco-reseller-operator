@@ -44,6 +44,9 @@ type UserProjectBindingReconciler struct {
 	Scheme *runtime.Scheme
 }
 
+const userTimeout = 1 * time.Minute
+const projectTimeout = 1 * time.Minute
+
 //+kubebuilder:rbac:groups=pco.plusserver.com,resources=userprojectbindings,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=pco.plusserver.com,resources=userprojectbindings/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=pco.plusserver.com,resources=userprojectbindings/finalizers,verbs=update
@@ -127,13 +130,12 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
-	if !user.IsReady() {
+	if awaitErr := user.AwaitReady(ctx, userTimeout, r.Client, logger); awaitErr != nil {
 		if err := upb.UpdateUserCondition(ctx, r.Client, v1alpha1.UserIsUnready, "User isn't ready"); err != nil {
 			return ctrl.Result{}, err
 		}
 
-		logger.Info(fmt.Sprintf("User %s isn't ready", upb.Spec.User))
-		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
+		return ctrl.Result{}, awaitErr
 	}
 
 	//Set user condition ready
@@ -163,13 +165,12 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
 	}
 
-	if !project.IsReady() {
+	if awaitErr := project.AwaitReady(ctx, projectTimeout, r.Client, logger); awaitErr != nil {
 		if err := upb.UpdateProjectCondition(ctx, r.Client, v1alpha1.ProjectIsUnready, "Project isn't ready"); err != nil {
 			return ctrl.Result{}, err
 		}
 
-		logger.Info(fmt.Sprintf("Project %s isn't ready", upb.Spec.Project))
-		return ctrl.Result{RequeueAfter: time.Duration(3) * time.Second}, nil
+		return ctrl.Result{}, awaitErr
 	}
 
 	//Set project condition ready
