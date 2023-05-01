@@ -7,7 +7,7 @@ require (
 	github.com/go-logr/logr v1.2.3
 	github.com/gophercloud/gophercloud v1.3.0
 	github.com/onsi/ginkgo/v2 v2.9.2
-	github.com/onsi/gomega v1.27.4
+	github.com/onsi/gomega v1.27.6
 	github.com/pluscloudopen/reseller-cli/v2 v2.0.0-20230224142343-511c72259c76
 	github.com/sethvargo/go-password v0.2.0
 	k8s.io/api v0.26.1
