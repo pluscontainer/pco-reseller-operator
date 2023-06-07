@@ -1,7 +1,0 @@
-## Append samples you want in your CSV to this file as resources ##
-resources:
-- pco_v1alpha1_project.yaml
-- pco_v1alpha1_region.yaml
-- pco_v1alpha1_user.yaml
-- pco_v1alpha1_userprojectbinding.yaml
-#+kubebuilder:scaffold:manifestskustomizesamples

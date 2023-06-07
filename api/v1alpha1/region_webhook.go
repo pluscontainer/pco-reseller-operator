@@ -18,7 +18,9 @@ package v1alpha1
 
 import (
 	"errors"
+	"fmt"
 
+	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
 	"github.com/pluscloudopen/reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -63,6 +65,10 @@ func (r *Region) ValidateCreate() error {
 		return errors.New("password must be specified")
 	}
 
+	if err := r.validatePsosCredentials(); err != nil {
+		return err
+	}
+
 	// TODO(user): fill in your validation logic upon object creation.
 	return nil
 }
@@ -76,6 +82,10 @@ func (r *Region) ValidateUpdate(old runtime.Object) error {
 		return errors.New("endpoint is immutable")
 	}
 
+	if err := r.validatePsosCredentials(); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -84,5 +94,14 @@ func (r *Region) ValidateDelete() error {
 	regionlog.Info("validate delete", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
+	return nil
+}
+
+func (r *Region) validatePsosCredentials() error {
+	_, err := psos.Login(r.Spec.Endpoint, r.Spec.Username, r.Spec.Password)
+	if err != nil {
+		return fmt.Errorf("couldn't authenticate with provided credentials: %s", err.Error())
+	}
+
 	return nil
 }

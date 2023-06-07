@@ -75,7 +75,7 @@ func main() {
 		Port:                   9443,
 		HealthProbeBindAddress: probeAddr,
 		LeaderElection:         enableLeaderElection,
-		LeaderElectionID:       "8788cf54.plusserver.com",
+		LeaderElectionID:       "d2def39d.plusserver.com",
 		// LeaderElectionReleaseOnCancel defines if the leader should step down voluntarily
 		// when the Manager ends. This requires the binary to immediately end when the
 		// Manager is stopped, otherwise, this setting is unsafe. Setting this significantly
@@ -100,8 +100,18 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "Project")
 		os.Exit(1)
 	}
-	if err = (&pcov1alpha1.Project{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "Project")
+	if err = (&controllers.UserReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "User")
+		os.Exit(1)
+	}
+	if err = (&controllers.UserProjectBindingReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "UserProjectBinding")
 		os.Exit(1)
 	}
 	if err = (&controllers.RegionReconciler{
@@ -111,26 +121,16 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "Region")
 		os.Exit(1)
 	}
+	if err = (&pcov1alpha1.Project{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "Project")
+		os.Exit(1)
+	}
 	if err = (&pcov1alpha1.Region{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "Region")
 		os.Exit(1)
 	}
-	if err = (&controllers.UserReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "User")
-		os.Exit(1)
-	}
 	if err = (&pcov1alpha1.User{}).SetupWebhookWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create webhook", "webhook", "User")
-		os.Exit(1)
-	}
-	if err = (&controllers.UserProjectBindingReconciler{
-		Client: mgr.GetClient(),
-		Scheme: mgr.GetScheme(),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "UserProjectBinding")
 		os.Exit(1)
 	}
 	if err = (&pcov1alpha1.UserProjectBinding{}).SetupWebhookWithManager(mgr); err != nil {
