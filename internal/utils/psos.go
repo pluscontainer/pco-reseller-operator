@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"strings"
 
-	oapi_types "github.com/deepmap/oapi-codegen/pkg/types"
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/openapi"
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
 	"k8s.io/apimachinery/pkg/types"
@@ -38,7 +37,7 @@ func GetOpenStackUser(ctx context.Context, client *psos.PsOpenstackClient, openS
 	}
 
 	for _, k := range *existingUsers {
-		if k.Name == oapi_types.Email(openStackUsername) {
+		if k.Name == openStackUsername {
 			return &k, nil
 		}
 	}
