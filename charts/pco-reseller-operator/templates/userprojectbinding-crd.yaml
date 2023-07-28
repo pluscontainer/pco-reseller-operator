@@ -3,11 +3,9 @@ kind: CustomResourceDefinition
 metadata:
   name: userprojectbindings.pco.plusserver.com
   annotations:
-    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "pco-reseller-operator.fullname"
-      . }}-serving-cert'
-    controller-gen.kubebuilder.io/version: v0.10.0
+    controller-gen.kubebuilder.io/version: v0.11.1
   labels:
-  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+  {{- include "chart.labels" . | nindent 4 }}
 spec:
   group: pco.plusserver.com
   names:
@@ -37,12 +35,12 @@ spec:
           spec:
             description: UserProjectBindingSpec defines the desired state of UserProjectBinding
             properties:
+              applicationCredential:
+                type: boolean
               project:
                 type: string
               user:
                 type: string
-              applicationCredential:
-                type: boolean
             required:
             - project
             - user

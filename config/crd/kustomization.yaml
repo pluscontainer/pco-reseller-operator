@@ -3,26 +3,26 @@
 # It should be run by config/default
 resources:
 - bases/pco.plusserver.com_projects.yaml
-- bases/pco.plusserver.com_regions.yaml
 - bases/pco.plusserver.com_users.yaml
 - bases/pco.plusserver.com_userprojectbindings.yaml
+- bases/pco.plusserver.com_regions.yaml
 #+kubebuilder:scaffold:crdkustomizeresource
 
 patchesStrategicMerge:
 # [WEBHOOK] To enable webhook, uncomment all the sections with [WEBHOOK] prefix.
 # patches here are for enabling the conversion webhook for each CRD
 - patches/webhook_in_projects.yaml
-- patches/webhook_in_regions.yaml
 - patches/webhook_in_users.yaml
-#- patches/webhook_in_userprojectbindings.yaml
+- patches/webhook_in_userprojectbindings.yaml
+- patches/webhook_in_regions.yaml
 #+kubebuilder:scaffold:crdkustomizewebhookpatch
 
 # [CERTMANAGER] To enable cert-manager, uncomment all the sections with [CERTMANAGER] prefix.
 # patches here are for enabling the CA injection for each CRD
 - patches/cainjection_in_projects.yaml
-- patches/cainjection_in_regions.yaml
 - patches/cainjection_in_users.yaml
-#- patches/cainjection_in_userprojectbindings.yaml
+- patches/cainjection_in_userprojectbindings.yaml
+- patches/cainjection_in_regions.yaml
 #+kubebuilder:scaffold:crdkustomizecainjectionpatch
 
 # the following config is for teaching kustomize how to do kustomization for CRDs.

@@ -1,17 +1,17 @@
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
-  name: {{ include "pco-reseller-operator.fullname" . }}-validating-webhook-configuration
+  name: {{ include "chart.fullname" . }}-validating-webhook-configuration
   annotations:
-    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "pco-reseller-operator.fullname" . }}-serving-cert
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "chart.fullname" . }}-serving-cert
   labels:
-  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+  {{- include "chart.labels" . | nindent 4 }}
 webhooks:
 - admissionReviewVersions:
   - v1
   clientConfig:
     service:
-      name: '{{ include "pco-reseller-operator.fullname" . }}-webhook-service'
+      name: '{{ include "chart.fullname" . }}-webhook-service'
       namespace: '{{ .Release.Namespace }}'
       path: /validate-pco-plusserver-com-v1alpha1-project
   failurePolicy: Fail
@@ -31,7 +31,7 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: '{{ include "pco-reseller-operator.fullname" . }}-webhook-service'
+      name: '{{ include "chart.fullname" . }}-webhook-service'
       namespace: '{{ .Release.Namespace }}'
       path: /validate-pco-plusserver-com-v1alpha1-region
   failurePolicy: Fail
@@ -51,7 +51,7 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: '{{ include "pco-reseller-operator.fullname" . }}-webhook-service'
+      name: '{{ include "chart.fullname" . }}-webhook-service'
       namespace: '{{ .Release.Namespace }}'
       path: /validate-pco-plusserver-com-v1alpha1-user
   failurePolicy: Fail
@@ -71,7 +71,7 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: '{{ include "pco-reseller-operator.fullname" . }}-webhook-service'
+      name: '{{ include "chart.fullname" . }}-webhook-service'
       namespace: '{{ .Release.Namespace }}'
       path: /validate-pco-plusserver-com-v1alpha1-userprojectbinding
   failurePolicy: Fail

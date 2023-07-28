@@ -3,22 +3,10 @@ kind: CustomResourceDefinition
 metadata:
   name: projects.pco.plusserver.com
   annotations:
-    cert-manager.io/inject-ca-from: '{{ .Release.Namespace }}/{{ include "pco-reseller-operator.fullname"
-      . }}-serving-cert'
-    controller-gen.kubebuilder.io/version: v0.10.0
+    controller-gen.kubebuilder.io/version: v0.11.1
   labels:
-  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+  {{- include "chart.labels" . | nindent 4 }}
 spec:
-  conversion:
-    strategy: Webhook
-    webhook:
-      clientConfig:
-        service:
-          name: '{{ include "pco-reseller-operator.fullname" . }}-webhook-service'
-          namespace: '{{ .Release.Namespace }}'
-          path: /convert
-      conversionReviewVersions:
-      - v1
   group: pco.plusserver.com
   names:
     kind: Project

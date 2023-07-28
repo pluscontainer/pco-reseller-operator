@@ -27,8 +27,10 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/openapi"
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
@@ -285,7 +287,12 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *UserProjectBindingReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	pred := predicate.GenerationChangedPredicate{}
 	return ctrl.NewControllerManagedBy(mgr).
+		WithOptions(controller.Options{
+			MaxConcurrentReconciles: 5,
+		}).
+		WithEventFilter(pred).
 		For(&pcov1alpha1.UserProjectBinding{}).
 		Complete(r)
 }
