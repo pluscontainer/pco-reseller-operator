@@ -1,9 +1,9 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "pco-reseller-operator.fullname" . }}-manager-role
+  name: {{ include "chart.fullname" . }}-manager-role
   labels:
-  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+  {{- include "chart.labels" . | nindent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -125,17 +125,17 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ include "pco-reseller-operator.fullname" . }}-manager-rolebinding
+  name: {{ include "chart.fullname" . }}-manager-rolebinding
   labels:
     app.kubernetes.io/component: rbac
     app.kubernetes.io/created-by: pco-reseller-operator
     app.kubernetes.io/part-of: pco-reseller-operator
-  {{- include "pco-reseller-operator.labels" . | nindent 4 }}
+  {{- include "chart.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: '{{ include "pco-reseller-operator.fullname" . }}-manager-role'
+  name: '{{ include "chart.fullname" . }}-manager-role'
 subjects:
 - kind: ServiceAccount
-  name: '{{ include "pco-reseller-operator.fullname" . }}-controller-manager'
+  name: '{{ include "chart.fullname" . }}-controller-manager'
   namespace: '{{ .Release.Namespace }}'

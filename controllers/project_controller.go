@@ -27,8 +27,10 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
+	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/openapi"
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
@@ -243,13 +245,18 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		return ctrl.Result{}, err
 	}
 
-	logger.Info("Reconciling finished")
-	return ctrl.Result{}, nil
+	logger.Info("Reconciling finished, will reconcile again in 1h")
+	return ctrl.Result{RequeueAfter: 1 * time.Hour}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
 func (r *ProjectReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	pred := predicate.GenerationChangedPredicate{}
 	return ctrl.NewControllerManagedBy(mgr).
+		WithOptions(controller.Options{
+			MaxConcurrentReconciles: 5,
+		}).
+		WithEventFilter(pred).
 		For(&pcov1alpha1.Project{}).
 		Complete(r)
 }
