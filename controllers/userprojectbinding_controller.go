@@ -32,7 +32,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	oapi_types "github.com/deepmap/oapi-codegen/pkg/types"
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/openapi"
 	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
 	"github.com/pluscloudopen/reseller-operator/api/v1alpha1"
@@ -220,7 +219,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 
 	if openStackUser == nil {
 		openStackUser, err = psOsClient.CreateUser(ctx, openapi.CreateOpenStackUser{
-			Name:           oapi_types.Email(*mail),
+			Name:           *mail,
 			Description:    user.Spec.Description,
 			Enabled:        user.Spec.Enabled,
 			DefaultProject: &openStackProject.Id,
@@ -233,7 +232,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 	} else {
 		password := string(userAccessSecret.Data[secretPasswordKey])
 		openStackUser, err = psOsClient.UpdateUser(ctx, openStackUser.Id, openapi.UpdateOpenStackUser{
-			Name:        (*oapi_types.Email)(mail),
+			Name:        mail,
 			Description: &user.Spec.Description,
 			Enabled:     user.Spec.Enabled,
 			//DefaultProject: &openStackProject.Id, <- Don't update the default project
