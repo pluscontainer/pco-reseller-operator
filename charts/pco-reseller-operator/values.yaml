@@ -31,7 +31,7 @@ controllerManager:
         drop:
         - ALL
     image:
-      repository: ghcr.io/pluscloudopen/reseller-operator
+      repository: ghcr.io/pluscontainer/pco-reseller-operator
       tag: latest
     imagePullPolicy: Always
     resources:
