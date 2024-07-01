@@ -19,7 +19,7 @@ package v1alpha1
 import (
 	"errors"
 
-	"github.com/pluscloudopen/reseller-operator/internal/utils"
+	"github.com/pluscontainer/reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"

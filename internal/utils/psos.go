@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/pluscloudopen/reseller-cli/v2/pkg/openapi"
-	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
+	"github.com/pluscontainer/pco-reseller-cli/pkg/openapi"
+	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
 	"k8s.io/apimachinery/pkg/types"
 )
 

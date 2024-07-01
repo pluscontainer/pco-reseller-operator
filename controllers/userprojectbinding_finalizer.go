@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/go-logr/logr"
-	"github.com/pluscloudopen/reseller-cli/v2/pkg/psos"
-	"github.com/pluscloudopen/reseller-operator/api/v1alpha1"
-	"github.com/pluscloudopen/reseller-operator/internal/utils"
+	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
+	"github.com/pluscontainer/reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/reseller-operator/internal/utils"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
