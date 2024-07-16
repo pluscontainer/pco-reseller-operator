@@ -26,6 +26,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // log is for logging in this package.
@@ -52,49 +53,49 @@ func (r *Region) Default() {
 var _ webhook.Validator = &Region{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *Region) ValidateCreate() error {
+func (r *Region) ValidateCreate() (admission.Warnings, error) {
 	regionlog.Info("validate create", "name", r.Name)
 
 	if utils.IsEmpty(r.Spec.Endpoint) {
-		return errors.New("endpoint must be specified")
+		return nil, errors.New("endpoint must be specified")
 	}
 	if utils.IsEmpty(r.Spec.Username) {
-		return errors.New("username must be specified")
+		return nil, errors.New("username must be specified")
 	}
 	if utils.IsEmpty(r.Spec.Password) {
-		return errors.New("password must be specified")
+		return nil, errors.New("password must be specified")
 	}
 
 	if err := r.validatePsosCredentials(); err != nil {
-		return err
+		return nil, err
 	}
 
 	// TODO(user): fill in your validation logic upon object creation.
-	return nil
+	return nil, nil
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *Region) ValidateUpdate(old runtime.Object) error {
+func (r *Region) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	regionlog.Info("validate update", "name", r.Name)
 
 	oldRegion := old.(*Region)
 	if oldRegion.Spec.Endpoint != r.Spec.Endpoint {
-		return errors.New("endpoint is immutable")
+		return nil, errors.New("endpoint is immutable")
 	}
 
 	if err := r.validatePsosCredentials(); err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return nil, nil
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *Region) ValidateDelete() error {
+func (r *Region) ValidateDelete() (admission.Warnings, error) {
 	regionlog.Info("validate delete", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
+	return nil, nil
 }
 
 func (r *Region) validatePsosCredentials() error {

@@ -24,6 +24,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // log is for logging in this package.
@@ -113,33 +114,33 @@ func intPointer(v int) *int {
 var _ webhook.Validator = &Project{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *Project) ValidateCreate() error {
+func (r *Project) ValidateCreate() (admission.Warnings, error) {
 	projectlog.Info("validate create", "name", r.Name)
 
 	if utils.IsEmpty(r.Spec.Region) {
-		return errors.New(".spec.region must be specified")
+		return nil, errors.New(".spec.region must be specified")
 	}
 
-	return nil
+	return nil, nil
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *Project) ValidateUpdate(old runtime.Object) error {
+func (r *Project) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	projectlog.Info("validate update", "name", r.Name)
 
 	oldProject := old.(*Project)
 
 	if oldProject.Spec.Region != r.Spec.Region {
-		return errors.New("region field is immutable")
+		return nil, errors.New("region field is immutable")
 	}
 
-	return nil
+	return nil, nil
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *Project) ValidateDelete() error {
+func (r *Project) ValidateDelete() (admission.Warnings, error) {
 	projectlog.Info("validate delete", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
+	return nil, nil
 }

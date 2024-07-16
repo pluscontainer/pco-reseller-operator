@@ -24,6 +24,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
+	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
 // log is for logging in this package.
@@ -41,38 +42,38 @@ func (r *UserProjectBinding) SetupWebhookWithManager(mgr ctrl.Manager) error {
 var _ webhook.Validator = &UserProjectBinding{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *UserProjectBinding) ValidateCreate() error {
+func (r *UserProjectBinding) ValidateCreate() (admission.Warnings, error) {
 	userprojectbindinglog.Info("validate create", "name", r.Name)
 
 	if utils.IsEmpty(r.Spec.Project) {
-		return errors.New(".spec.project must be specified")
+		return nil, errors.New(".spec.project must be specified")
 	}
 
 	if utils.IsEmpty(r.Spec.User) {
-		return errors.New(".spec.user must be specified")
+		return nil, errors.New(".spec.user must be specified")
 	}
 
-	return nil
+	return nil, nil
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *UserProjectBinding) ValidateUpdate(old runtime.Object) error {
+func (r *UserProjectBinding) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
 	userprojectbindinglog.Info("validate update", "name", r.Name)
 	oldUser := old.(*UserProjectBinding)
 
 	if oldUser.Spec.Project != r.Spec.Project {
-		return errors.New(".spec.project is immutable")
+		return nil, errors.New(".spec.project is immutable")
 	}
 	if oldUser.Spec.User != r.Spec.User {
-		return errors.New(".spec.user is immutable")
+		return nil, errors.New(".spec.user is immutable")
 	}
-	return nil
+	return nil, nil
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *UserProjectBinding) ValidateDelete() error {
+func (r *UserProjectBinding) ValidateDelete() (admission.Warnings, error) {
 	userprojectbindinglog.Info("validate delete", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
+	return nil, nil
 }
