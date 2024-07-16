@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/go-logr/logr"
-	"github.com/pluscontainer/reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 

@@ -34,9 +34,9 @@ import (
 
 	"github.com/pluscontainer/pco-reseller-cli/pkg/openapi"
 	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
-	"github.com/pluscontainer/reseller-operator/api/v1alpha1"
-	pcov1alpha1 "github.com/pluscontainer/reseller-operator/api/v1alpha1"
-	"github.com/pluscontainer/reseller-operator/internal/utils"
+	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
+	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 )
 
 // ProjectReconciler reconciles a Project object

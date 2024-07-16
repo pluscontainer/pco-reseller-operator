@@ -3,7 +3,7 @@ package controllers
 import (
 	"context"
 
-	"github.com/pluscontainer/reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	"k8s.io/apimachinery/pkg/api/meta"
 )
 

@@ -30,8 +30,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
-	"github.com/pluscontainer/reseller-operator/api/v1alpha1"
-	pcov1alpha1 "github.com/pluscontainer/reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
+	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 )
 
 // RegionReconciler reconciles a Region object

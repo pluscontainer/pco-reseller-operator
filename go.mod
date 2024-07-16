@@ -1,4 +1,4 @@
-module github.com/pluscontainer/reseller-operator
+module github.com/pluscontainer/pco-reseller-operator
 
 go 1.19
 
@@ -7,6 +7,7 @@ require (
 	github.com/gophercloud/gophercloud v1.3.0
 	github.com/onsi/ginkgo/v2 v2.11.0
 	github.com/onsi/gomega v1.27.10
+	github.com/pluscontainer/pco-reseller-cli v0.1.8
 	github.com/sethvargo/go-password v0.2.0
 	k8s.io/api v0.26.1
 	k8s.io/apimachinery v0.26.1
@@ -70,7 +71,6 @@ require (
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/pluscontainer/pco-reseller-cli v0.1.8 // indirect
 	github.com/prometheus/client_golang v1.14.0 // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.37.0 // indirect

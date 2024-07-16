@@ -11,7 +11,7 @@ import (
 	"github.com/gophercloud/gophercloud/openstack"
 	"github.com/gophercloud/gophercloud/openstack/identity/v3/applicationcredentials"
 	"github.com/pluscontainer/pco-reseller-cli/pkg/openapi"
-	"github.com/pluscontainer/reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"

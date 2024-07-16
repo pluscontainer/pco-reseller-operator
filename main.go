@@ -33,8 +33,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	pcov1alpha1 "github.com/pluscontainer/reseller-operator/api/v1alpha1"
-	"github.com/pluscontainer/reseller-operator/controllers"
+	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
+	"github.com/pluscontainer/pco-reseller-operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
 

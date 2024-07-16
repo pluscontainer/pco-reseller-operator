@@ -6,7 +6,7 @@ domain: plusserver.com
 layout:
 - go.kubebuilder.io/v3
 projectName: pco-reseller-operator
-repo: github.com/pluscontainer/reseller-operator
+repo: github.com/pluscontainer/pco-reseller-operator
 resources:
 - api:
     crdVersion: v1
@@ -15,7 +15,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: Project
-  path: github.com/pluscontainer/reseller-operator/api/v1alpha1
+  path: github.com/pluscontainer/pco-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
@@ -28,7 +28,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: User
-  path: github.com/pluscontainer/reseller-operator/api/v1alpha1
+  path: github.com/pluscontainer/pco-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
@@ -41,7 +41,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: UserProjectBinding
-  path: github.com/pluscontainer/reseller-operator/api/v1alpha1
+  path: github.com/pluscontainer/pco-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
@@ -54,7 +54,7 @@ resources:
   domain: plusserver.com
   group: pco
   kind: Region
-  path: github.com/pluscontainer/reseller-operator/api/v1alpha1
+  path: github.com/pluscontainer/pco-reseller-operator/api/v1alpha1
   version: v1alpha1
   webhooks:
     defaulting: true
