@@ -193,18 +193,30 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		isTrue := true
 
 		//Update the project within openstack, if it already exists, to reflect the current state of the kubernetes object
-		openStackProject, err = psOsClient.UpdateProject(ctx, openStackProject.Id, openapi.ProjectUpdate{
-			Name:        &openStackProjectName,
-			Description: &project.Spec.Description,
-			Enabled:     &isTrue,
-		})
+		//Check if the project within openstack matches the kubernetes object
+		projectMatches := true
+		if openStackProject.Name != openStackProjectName {
+			projectMatches = false
+		}
+		if openStackProject.Description != project.Spec.Description {
+			projectMatches = false
+		}
+		if openStackProject.Enabled != &isTrue {
+			projectMatches = false
+		}
+		if !projectMatches {
+			openStackProject, err = psOsClient.UpdateProject(ctx, openStackProject.Id, openapi.ProjectUpdate{
+				Name:        &openStackProjectName,
+				Description: &project.Spec.Description,
+				Enabled:     &isTrue,
+			})
+			if err != nil {
+				if err := r.setProjectReadyError(ctx, project, err); err != nil {
+					return ctrl.Result{}, err
+				}
 
-		if err != nil {
-			if err := r.setProjectReadyError(ctx, project, err); err != nil {
 				return ctrl.Result{}, err
 			}
-
-			return ctrl.Result{}, err
 		}
 	}
 
@@ -230,13 +242,20 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		return ctrl.Result{}, err
 	}
 
+	currentProjectQuota, err := psOsClient.GetProjectQuota(ctx, openStackProject.Id)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
 	//Ensure quotas are set correctly
-	if _, err := psOsClient.UpdateProjectQuota(ctx, openStackProject.Id, projectQuota); err != nil {
-		if err := r.setProjectReadyError(ctx, project, err); err != nil {
+	if projectQuota != *currentProjectQuota {
+		if _, err := psOsClient.UpdateProjectQuota(ctx, openStackProject.Id, projectQuota); err != nil {
+			if err := r.setProjectReadyError(ctx, project, err); err != nil {
+				return ctrl.Result{}, err
+			}
+
 			return ctrl.Result{}, err
 		}
-
-		return ctrl.Result{}, err
 	}
 
 	logger.Info(fmt.Sprintf("Quota for project %s ensured", openStackProject.Id))
