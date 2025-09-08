@@ -3,7 +3,7 @@ module github.com/pluscontainer/pco-reseller-operator
 go 1.20
 
 require (
-	github.com/go-logr/logr v1.4.1
+	github.com/go-logr/logr v1.4.3
 	github.com/gophercloud/gophercloud v1.3.0
 	github.com/onsi/ginkgo/v2 v2.19.0
 	github.com/onsi/gomega v1.33.1
