@@ -12,7 +12,7 @@ controllerManager:
         - ALL
     image:
       repository: gcr.io/kubebuilder/kube-rbac-proxy
-      tag: v0.13.1
+      tag: v0.13.1@sha256:d4883d7c622683b3319b5e6b3a7edfbf2594c18060131a8bf64504805f875522
     resources:
       limits:
         cpu: 500m
@@ -32,7 +32,7 @@ controllerManager:
         - ALL
     image:
       repository: ghcr.io/pluscontainer/pco-reseller-operator
-      tag: latest
+      tag: latest@sha256:6a864f10a0d75f629036b0aca7a265a15b122ea8f1a5ff727d156a4dc97442e3
     imagePullPolicy: Always
     resources:
       limits:
