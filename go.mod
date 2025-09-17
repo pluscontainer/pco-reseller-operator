@@ -104,7 +104,7 @@ replace (
 	k8s.io/apimachinery => k8s.io/apimachinery v0.28.15
 	k8s.io/apiserver => k8s.io/apiserver v0.28.15
 	k8s.io/autoscaler => k8s.io/autoscaler v0.0.0-20220531185024-cc90d57b7fe1 // translates to k8s.io/autoscaler/vertical-pod-autoscaler@v0.11.0
-	k8s.io/autoscaler/vertical-pod-autoscaler => k8s.io/autoscaler/vertical-pod-autoscaler v0.11.0
+	k8s.io/autoscaler/vertical-pod-autoscaler => k8s.io/autoscaler/vertical-pod-autoscaler v0.14.0
 	k8s.io/client-go => k8s.io/client-go v0.28.15
 	k8s.io/code-generator => k8s.io/code-generator v0.28.15
 	k8s.io/component-base => k8s.io/component-base v0.28.15
