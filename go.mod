@@ -9,7 +9,7 @@ require (
 	github.com/onsi/gomega v1.33.1
 	github.com/pluscontainer/pco-reseller-cli v0.1.8
 	github.com/sethvargo/go-password v0.2.0
-	k8s.io/api v0.28.11
+	k8s.io/api v0.34.1
 	k8s.io/apimachinery v0.28.11
 	k8s.io/client-go v0.28.11
 	sigs.k8s.io/controller-runtime v0.16.3
@@ -100,7 +100,7 @@ require (
 )
 
 replace (
-	k8s.io/api => k8s.io/api v0.28.11
+	k8s.io/api => k8s.io/api v0.34.1
 	k8s.io/apimachinery => k8s.io/apimachinery v0.28.11
 	k8s.io/apiserver => k8s.io/apiserver v0.28.11
 	k8s.io/autoscaler => k8s.io/autoscaler v0.0.0-20220531185024-cc90d57b7fe1 // translates to k8s.io/autoscaler/vertical-pod-autoscaler@v0.11.0
