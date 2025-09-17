@@ -1,0 +1,13 @@
+# See the OWNERS docs at https://go.k8s.io/owners
+
+aliases:
+  pluscontainer-reviewers:
+  - Wieneo
+  - r3m1n0x
+  - rybnico
+  - sknop-cgn
+  - Ingwerpold
+  - YorK8s
+  pluscontainer-approvers:
+  - Wieneo
+  - r3m1n0x
