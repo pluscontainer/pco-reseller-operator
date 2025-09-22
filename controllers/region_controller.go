@@ -127,7 +127,7 @@ func (r *RegionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 	}
 
 	logger.Info("Reconciling finished")
-	return ctrl.Result{}, nil
+	return ctrl.Result{RequeueAfter: time.Minute * 15}, nil
 }
 
 // SetupWithManager sets up the controller with the Manager.
