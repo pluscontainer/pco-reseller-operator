@@ -22,6 +22,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -34,9 +35,23 @@ import (
 
 // RegionSpec defines the desired state of Region
 type RegionSpec struct {
+	// Deprecated please use secretRef instead
+	// +optional
 	Endpoint string `json:"endpoint,omitempty"`
+	// Deprecated please use secretRef instead
+	// +optional
 	Username string `json:"username,omitempty"`
+	// Deprecated please use secretRef instead
+	// +optional
 	Password string `json:"password,omitempty"`
+
+	// The refrence to a Secret with the Following Format:
+	// Endpoint: string
+	// Username: string
+	// Password: string
+	//
+	// +optional
+	SecretRef corev1.ObjectReference `json:"secretRef,omitempty"`
 }
 
 // RegionStatus defines the observed state of Region

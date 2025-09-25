@@ -18,10 +18,13 @@ package controller
 
 import (
 	"context"
+	"encoding/base64"
 	"time"
 
+	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -113,7 +116,47 @@ func (r *RegionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 		}
 	}
 
-	_, err = psos.Login(region.Spec.Endpoint, region.Spec.Username, region.Spec.Password)
+	// Get Endpoint Username and Password either from the Secret or from the CRD
+	Endpoint, Username, Password := "", "", ""
+	credentialSecret := corev1.Secret{}
+	err = r.Get(ctx, types.NamespacedName{
+		Name:      region.Spec.SecretRef.Name,
+		Namespace: region.Spec.SecretRef.Namespace,
+	}, &credentialSecret)
+	if err != nil {
+		if region.Spec.Endpoint == "" || region.Spec.Username == "" || region.Spec.Password == "" {
+			log.Log.Error(err, "could not get Secret under secretRef", "Region.SecretRef", region.Spec.SecretRef)
+			return ctrl.Result{}, err
+		}
+		log.Log.Info("could not get Secret under secretRef, but the credentials were Specified in the CRD please consider moving the credentials to a Secret", "Region.SecretRef", region.Spec.SecretRef)
+		Endpoint = region.Spec.Endpoint
+		Username = region.Spec.Username
+		Password = region.Spec.Password
+	} else {
+		// Get Credentials from Secret Data
+		decode := func(field string, secret corev1.Secret) (string, error) {
+			out, err := base64.StdEncoding.DecodeString(string(secret.Data[field]))
+			if err != nil {
+				log.Log.Error(err, "could not read Field in Region", "Region.SecretRef", region.Spec.SecretRef, "FieldName", field)
+				return "", err
+			}
+			return string(out), nil
+		}
+		Endpoint, err = decode("Endpoint", credentialSecret)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+		Username, err = decode("Username", credentialSecret)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+		Password, err = decode("Password", credentialSecret)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
+	}
+
+	_, err = psos.Login(Endpoint, Username, Password)
 	if err != nil {
 		if err := region.UpdateRegionCondition(ctx, r.Client, pcov1alpha1.RegionIsUnready, err.Error()); err != nil {
 			return ctrl.Result{}, err
