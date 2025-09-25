@@ -24,7 +24,6 @@ import (
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -85,10 +84,10 @@ func (r *Region) UpdateRegionCondition(ctx context.Context, reconcileClient clie
 	return r.updateCondition(ctx, reconcileClient, string(RegionReady), reason.regionStatus(), string(reason), message)
 }
 
-func (r *Region) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status v1.ConditionStatus, reason string, message string) error {
+func (r *Region) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status metav1.ConditionStatus, reason string, message string) error {
 	oldRegion := r.DeepCopy()
 
-	meta.SetStatusCondition(&r.Status.Conditions, v1.Condition{
+	meta.SetStatusCondition(&r.Status.Conditions, metav1.Condition{
 		Type:    typeString,
 		Status:  status,
 		Reason:  reason,

@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"time"
 
+	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -34,14 +35,13 @@ import (
 
 	"github.com/pluscontainer/pco-reseller-cli/pkg/openapi"
 	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
-	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
-	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 )
 
 // UserProjectBindingReconciler reconciles a UserProjectBinding object
 type UserProjectBindingReconciler struct {
 	client.Client
+
 	Scheme *runtime.Scheme
 }
 
@@ -66,7 +66,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 	logger.Info("Reconciling UserProjectBinding")
 
 	// Fetch the UBP instance
-	upb := &v1alpha1.UserProjectBinding{}
+	upb := &pcov1alpha1.UserProjectBinding{}
 	err := r.Get(ctx, req.NamespacedName, upb)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -114,7 +114,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 	}
 
-	user := &v1alpha1.User{}
+	user := &pcov1alpha1.User{}
 	if err := r.Get(ctx, types.NamespacedName{
 		Namespace: upb.Namespace,
 		Name:      upb.Spec.User,
@@ -123,7 +123,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 			return ctrl.Result{}, err
 		}
 
-		if err := upb.UpdateUserCondition(ctx, r.Client, v1alpha1.UserNotFound, err.Error()); err != nil {
+		if err := upb.UpdateUserCondition(ctx, r.Client, pcov1alpha1.UserNotFound, err.Error()); err != nil {
 			return ctrl.Result{}, err
 		}
 
@@ -132,7 +132,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	if awaitErr := user.AwaitReady(ctx, userTimeout, r.Client, logger); awaitErr != nil {
-		if err := upb.UpdateUserCondition(ctx, r.Client, v1alpha1.UserIsUnready, "User isn't ready"); err != nil {
+		if err := upb.UpdateUserCondition(ctx, r.Client, pcov1alpha1.UserIsUnready, "User isn't ready"); err != nil {
 			return ctrl.Result{}, err
 		}
 
@@ -140,7 +140,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	//Set user condition ready
-	if err := upb.UpdateUserCondition(ctx, r.Client, v1alpha1.UserIsReady, "User is ready"); err != nil {
+	if err := upb.UpdateUserCondition(ctx, r.Client, pcov1alpha1.UserIsReady, "User is ready"); err != nil {
 		return ctrl.Result{}, err
 	}
 
@@ -149,7 +149,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		return ctrl.Result{}, err
 	}
 
-	project := &v1alpha1.Project{}
+	project := &pcov1alpha1.Project{}
 	if err := r.Get(ctx, types.NamespacedName{
 		Namespace: upb.Namespace,
 		Name:      upb.Spec.Project,
@@ -158,7 +158,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 			return ctrl.Result{}, err
 		}
 
-		if err := upb.UpdateProjectCondition(ctx, r.Client, v1alpha1.ProjectNotFound, err.Error()); err != nil {
+		if err := upb.UpdateProjectCondition(ctx, r.Client, pcov1alpha1.ProjectNotFound, err.Error()); err != nil {
 			return ctrl.Result{}, err
 		}
 
@@ -167,7 +167,7 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	if awaitErr := project.AwaitReady(ctx, projectTimeout, r.Client, logger); awaitErr != nil {
-		if err := upb.UpdateProjectCondition(ctx, r.Client, v1alpha1.ProjectIsUnready, "Project isn't ready"); err != nil {
+		if err := upb.UpdateProjectCondition(ctx, r.Client, pcov1alpha1.ProjectIsUnready, "Project isn't ready"); err != nil {
 			return ctrl.Result{}, err
 		}
 
@@ -175,11 +175,11 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	//Set project condition ready
-	if err := upb.UpdateProjectCondition(ctx, r.Client, v1alpha1.ProjectIsReady, "Project is ready"); err != nil {
+	if err := upb.UpdateProjectCondition(ctx, r.Client, pcov1alpha1.ProjectIsReady, "Project is ready"); err != nil {
 		return ctrl.Result{}, err
 	}
 
-	region := &v1alpha1.Region{}
+	region := &pcov1alpha1.Region{}
 	if err := r.Get(ctx, types.NamespacedName{Name: project.Spec.Region}, region); err != nil {
 		return ctrl.Result{}, err
 	}

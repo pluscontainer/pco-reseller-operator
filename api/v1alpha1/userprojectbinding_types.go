@@ -117,6 +117,7 @@ type UserProjectBinding struct {
 	Status UserProjectBindingStatus `json:"status,omitempty"`
 }
 
+// ApplicationCredentialName returns the target application credential name
 func (upb UserProjectBinding) ApplicationCredentialName() string {
 	return fmt.Sprintf("%s-appcred", upb.Name)
 }
