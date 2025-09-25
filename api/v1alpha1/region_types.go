@@ -49,7 +49,7 @@ type RegionSpec struct {
 	// +optional
 	Password string `json:"password,omitempty"`
 
-	// The refrence to a Secret with the Following Format:
+	// SecretRe represets the refrence to a Secret with the Following Format:
 	// Endpoint: string
 	// Username: string
 	// Password: string
