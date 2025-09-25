@@ -18,9 +18,7 @@ package v1alpha1
 
 import (
 	"errors"
-	"fmt"
 
-	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -79,10 +77,6 @@ func (r *Region) ValidateUpdate(old runtime.Object) (admission.Warnings, error) 
 	oldRegion := old.(*Region)
 	if oldRegion.Spec.Endpoint != r.Spec.Endpoint {
 		return nil, errors.New("endpoint is immutable")
-	}
-
-	if err := r.validatePsosCredentials(); err != nil {
-		return nil, err
 	}
 
 	return nil, nil
