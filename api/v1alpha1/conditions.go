@@ -2,7 +2,7 @@ package v1alpha1
 
 import v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-// ConditionTypes stores the diffrent kinds of conditions
+// ConditionTypes stores the different kinds of conditions
 type ConditionTypes string
 
 const (

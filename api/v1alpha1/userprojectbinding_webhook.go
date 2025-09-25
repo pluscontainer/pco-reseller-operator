@@ -30,6 +30,7 @@ import (
 // log is for logging in this package.
 var userprojectbindinglog = logf.Log.WithName("userprojectbinding-resource")
 
+// SetupWebhookWithManager registers the webhook within the manager
 func (r *UserProjectBinding) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).

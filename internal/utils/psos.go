@@ -11,9 +11,13 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
+// ErrOpenStackProjectNotFound is returned if the project is not found
 var ErrOpenStackProjectNotFound = errors.New("openstack project not found")
+
+// ErrOpenStackUserNotFound is returned if the user is not found
 var ErrOpenStackUserNotFound = errors.New("openstack user not found")
 
+// GetOpenStackProject returns the openstack project from the API
 func GetOpenStackProject(ctx context.Context, client *psos.PsOpenstackClient, openStackProjectName string) (*openapi.ProjectCreatedResponse, error) {
 	existingProjects, err := client.GetProjects(ctx)
 	if err != nil {
@@ -30,6 +34,7 @@ func GetOpenStackProject(ctx context.Context, client *psos.PsOpenstackClient, op
 	return nil, ErrOpenStackProjectNotFound
 }
 
+// GetOpenStackUser returns the openstack user from the API
 func GetOpenStackUser(ctx context.Context, client *psos.PsOpenstackClient, openStackUsername string) (*openapi.CreatedOpenStackUser, error) {
 	existingUsers, err := client.GetUsers(ctx)
 	if err != nil {
@@ -45,6 +50,7 @@ func GetOpenStackUser(ctx context.Context, client *psos.PsOpenstackClient, openS
 	return nil, ErrOpenStackUserNotFound
 }
 
+// GetOpenStackProjectName templates the project name
 func GetOpenStackProjectName(controllerId string, project types.NamespacedName) string {
 	return fmt.Sprintf("%s-%s-%s", controllerId, project.Namespace, project.Name)
 }

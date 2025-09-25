@@ -14,7 +14,7 @@ import (
 	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
-	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 )
 
@@ -61,7 +61,7 @@ func (r *UserProjectBindingReconciler) ensureApplicationCredential(ctx context.C
 		isTrue := true
 
 		accessSecret := &v1.Secret{
-			ObjectMeta: meta_v1.ObjectMeta{
+			ObjectMeta: metav1.ObjectMeta{
 				Namespace: upb.Namespace,
 				Name:      upb.ApplicationCredentialName(),
 			},
@@ -77,7 +77,6 @@ func (r *UserProjectBindingReconciler) ensureApplicationCredential(ctx context.C
 		}
 
 		logger.Info(fmt.Sprintf("Application credential %s created", appCredName))
-
 	} else {
 		logger.Info(fmt.Sprintf("Application credential %s already exists", appCredName))
 	}

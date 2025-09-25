@@ -30,13 +30,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
 	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
-	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 )
 
 // RegionReconciler reconciles a Region object
 type RegionReconciler struct {
 	client.Client
+
 	Scheme *runtime.Scheme
 }
 
@@ -60,7 +60,7 @@ func (r *RegionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 	logger.Info("Reconciling Region")
 
 	// Fetch the Region instance
-	region := &v1alpha1.Region{}
+	region := &pcov1alpha1.Region{}
 	err := r.Get(ctx, req.NamespacedName, region)
 	if err != nil {
 		if errors.IsNotFound(err) {

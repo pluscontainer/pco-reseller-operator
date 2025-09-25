@@ -44,6 +44,7 @@ type RegionStatus struct {
 	Conditions []metav1.Condition `json:"conditions"`
 }
 
+// AwaitReady blocks until the region is completely ready
 func (v *Region) AwaitReady(ctx context.Context, timeout time.Duration, client client.Client, logger logr.Logger) error {
 	timeoutContext, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
@@ -79,6 +80,7 @@ func (v *Region) awaitAllConditionsTrue(ctx context.Context, client client.Clien
 	out <- true
 }
 
+// UpdateRegionCondition updates the given condition within the region resource and updates its status subresource
 func (r *Region) UpdateRegionCondition(ctx context.Context, reconcileClient client.Client, reason RegionReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(RegionReady), reason.regionStatus(), string(reason), message)
 }

@@ -25,7 +25,6 @@ import (
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -80,15 +79,15 @@ func (v *User) awaitAllConditionsTrue(ctx context.Context, client client.Client,
 	out <- true
 }
 
-// UpdateUserCondition updates the given condition in the user object and patches its status
+// UpdateUserCondition updates the given condition in the user object and patches its status subresource
 func (r *User) UpdateUserCondition(ctx context.Context, reconcileClient client.Client, reason UserReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(UserReady), reason.userStatus(), string(reason), message)
 }
 
-func (r *User) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status v1.ConditionStatus, reason string, message string) error {
+func (r *User) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status metav1.ConditionStatus, reason string, message string) error {
 	oldUser := r.DeepCopy()
 
-	meta.SetStatusCondition(&r.Status.Conditions, v1.Condition{
+	meta.SetStatusCondition(&r.Status.Conditions, metav1.Condition{
 		Type:    typeString,
 		Status:  status,
 		Reason:  reason,

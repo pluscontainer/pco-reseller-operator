@@ -30,6 +30,7 @@ import (
 // log is for logging in this package.
 var projectlog = logf.Log.WithName("project-resource")
 
+// SetupWebhookWithManager registers the webhook within the manager
 func (r *Project) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
@@ -65,7 +66,6 @@ func (r *Project) Default() {
 	if r.Spec.Quotas.Network == nil {
 		r.Spec.Quotas.Network = defaultNetworkQuota()
 	}
-
 }
 
 func defaultComputeQuota() *ComputeQuotas {
