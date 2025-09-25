@@ -103,14 +103,16 @@ func (r *UserProjectBindingReconciler) deprovisionApplicationCredential(ctx cont
 
 	svc, err := openStackIdentityClient(region, project, username, password)
 	if err != nil {
-		return nil
-	}
-
-	result := applicationcredentials.Delete(svc, userId, string(accessSecret.Data[applicationCredentialIdKey]))
-	if result.Err != nil {
-		if !strings.Contains(result.Err.Error(), "Resource not found") {
-			return result.Err
+		logger.Error(err, "Failed to get OpenStack identity client, will not delete openstack application credential")
+	} else {
+		result := applicationcredentials.Delete(svc, userId, string(accessSecret.Data[applicationCredentialIdKey]))
+		if result.Err != nil {
+			if !strings.Contains(result.Err.Error(), "Resource not found") {
+				return result.Err
+			}
 		}
+
+		logger.Info("Application Credential deleted")
 	}
 
 	if err := r.Delete(ctx, accessSecret); err != nil {
@@ -119,7 +121,8 @@ func (r *UserProjectBindingReconciler) deprovisionApplicationCredential(ctx cont
 		}
 	}
 
-	logger.Info("Application Credential deleted")
+	logger.Info("Access Secret deleted")
+
 	return nil
 }
 

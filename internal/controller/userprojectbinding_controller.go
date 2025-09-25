@@ -279,7 +279,9 @@ func (r *UserProjectBindingReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 	}
 
-	upb.UpdateUserProjectBindingCondition(ctx, r.Client, pcov1alpha1.UserProjectBindingIsReady, "UPB ensured")
+	if err := upb.UpdateUserProjectBindingCondition(ctx, r.Client, pcov1alpha1.UserProjectBindingIsReady, "UPB ensured"); err != nil {
+		return ctrl.Result{}, err
+	}
 
 	logger.Info("Reconciling finished")
 	return ctrl.Result{}, nil

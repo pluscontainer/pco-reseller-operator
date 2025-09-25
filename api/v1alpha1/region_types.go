@@ -115,7 +115,8 @@ type Region struct {
 type RegionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Region `json:"items"`
+
+	Items []Region `json:"items"`
 }
 
 func init() {

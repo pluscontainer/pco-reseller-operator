@@ -119,7 +119,9 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 	}
 
 	//Initialize condition fields
-	r.initializeConditions(ctx, project)
+	if err := r.initializeConditions(ctx, project); err != nil {
+		return ctrl.Result{}, err
+	}
 
 	region := &v1alpha1.Region{}
 	if err := r.Get(ctx, types.NamespacedName{Name: project.Spec.Region}, region); err != nil {
