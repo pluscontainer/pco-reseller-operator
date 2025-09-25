@@ -33,9 +33,38 @@ import (
 
 // RegionSpec defines the desired state of Region
 type RegionSpec struct {
+	// Endpoint defines the Address of the PCO Reseller API
+	// Deprecated please use secretRef instead
+	// +optional
 	Endpoint string `json:"endpoint,omitempty"`
+
+	// Username defines the Username used to login to the PCO Reseller API
+	// Deprecated please use secretRef instead
+	// +optional
 	Username string `json:"username,omitempty"`
+
+	// Password defines the Password used to login to the PCO Reseller API
+	// Deprecated please use secretRef instead
+	// +optional
 	Password string `json:"password,omitempty"`
+
+	// SecretRef represets the reference to a Secret with the Following Format:
+	// Endpoint: string
+	// Username: string
+	// Password: string
+	//
+	// +optional
+	SecretRef *SecretRef `json:"secretRef,omitempty"`
+}
+
+// SecretRef defines the Reference to a Secret
+type SecretRef struct {
+	// Name of the Object
+	// +required
+	Name string `json:"name"`
+	// Namespace of the Object
+	// +required
+	Namespace string `json:"secretRef"`
 }
 
 // RegionStatus defines the observed state of Region

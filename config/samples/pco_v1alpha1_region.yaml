@@ -3,6 +3,7 @@ kind: Region
 metadata:
   name: prod1
 spec:
-  endpoint: https://prod1.api.pco.get-cloud.io:60312/
-  username: MY_RESELLER_USERNAME
-  password: MY_RESELLER_PASSWORD
+  #endpoint: https://prod1.api.pco.get-cloud.io:60312/
+  #username: MY_RESELLER_USERNAME
+  #password: MY_RESELLER_PASSWORD
+  secretRef: prod1_secret
