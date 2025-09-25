@@ -22,6 +22,7 @@ import (
 	"os"
 	"time"
 
+	pcocontroller "github.com/pluscontainer/pco-reseller-operator/internal/controller"
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
@@ -35,7 +36,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/metrics/server"
 
 	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
-	"github.com/pluscontainer/pco-reseller-operator/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -95,28 +95,28 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.ProjectReconciler{
+	if err = (&pcocontroller.ProjectReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "Project")
 		os.Exit(1)
 	}
-	if err = (&controllers.UserReconciler{
+	if err = (&pcocontroller.UserReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "User")
 		os.Exit(1)
 	}
-	if err = (&controllers.UserProjectBindingReconciler{
+	if err = (&pcocontroller.UserProjectBindingReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "UserProjectBinding")
 		os.Exit(1)
 	}
-	if err = (&controllers.RegionReconciler{
+	if err = (&pcocontroller.RegionReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
