@@ -24,7 +24,6 @@ import (
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -44,6 +43,7 @@ type RegionStatus struct {
 	Conditions []metav1.Condition `json:"conditions"`
 }
 
+// AwaitReady blocks until the region is completely ready
 func (v *Region) AwaitReady(ctx context.Context, timeout time.Duration, client client.Client, logger logr.Logger) error {
 	timeoutContext, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
@@ -79,14 +79,15 @@ func (v *Region) awaitAllConditionsTrue(ctx context.Context, client client.Clien
 	out <- true
 }
 
+// UpdateRegionCondition updates the given condition within the region resource and updates its status subresource
 func (r *Region) UpdateRegionCondition(ctx context.Context, reconcileClient client.Client, reason RegionReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(RegionReady), reason.regionStatus(), string(reason), message)
 }
 
-func (r *Region) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status v1.ConditionStatus, reason string, message string) error {
+func (r *Region) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status metav1.ConditionStatus, reason string, message string) error {
 	oldRegion := r.DeepCopy()
 
-	meta.SetStatusCondition(&r.Status.Conditions, v1.Condition{
+	meta.SetStatusCondition(&r.Status.Conditions, metav1.Condition{
 		Type:    typeString,
 		Status:  status,
 		Reason:  reason,
@@ -115,7 +116,8 @@ type Region struct {
 type RegionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Region `json:"items"`
+
+	Items []Region `json:"items"`
 }
 
 func init() {

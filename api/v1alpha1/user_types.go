@@ -25,22 +25,25 @@ import (
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 // UserSpec defines the desired state of User
 type UserSpec struct {
+	// Description is a free-text field for storing information about the user
 	Description string `json:"description,omitempty"`
-	Enabled     *bool  `json:"enabled,omitempty"`
+	// Enabled represents if the user is enabled or not
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // UserStatus defines the observed state of User
 type UserStatus struct {
+	// Conditions store the conditions of the user object
 	Conditions []metav1.Condition `json:"conditions"`
 }
 
+// AwaitReady blocks until the user is completely ready
 func (v *User) AwaitReady(ctx context.Context, timeout time.Duration, client client.Client, logger logr.Logger) error {
 	timeoutContext, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
@@ -76,14 +79,15 @@ func (v *User) awaitAllConditionsTrue(ctx context.Context, client client.Client,
 	out <- true
 }
 
+// UpdateUserCondition updates the given condition in the user object and patches its status subresource
 func (r *User) UpdateUserCondition(ctx context.Context, reconcileClient client.Client, reason UserReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(UserReady), reason.userStatus(), string(reason), message)
 }
 
-func (r *User) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status v1.ConditionStatus, reason string, message string) error {
+func (r *User) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status metav1.ConditionStatus, reason string, message string) error {
 	oldUser := r.DeepCopy()
 
-	meta.SetStatusCondition(&r.Status.Conditions, v1.Condition{
+	meta.SetStatusCondition(&r.Status.Conditions, metav1.Condition{
 		Type:    typeString,
 		Status:  status,
 		Reason:  reason,
@@ -105,6 +109,7 @@ type User struct {
 	Status UserStatus `json:"status,omitempty"`
 }
 
+// Mail returns the e-mail address of the user
 func (u User) Mail(ctx context.Context, r client.Client) (*string, error) {
 	controllerId, err := utils.ControllerIdentifier(ctx, r)
 	if err != nil {
@@ -115,6 +120,7 @@ func (u User) Mail(ctx context.Context, r client.Client) (*string, error) {
 	return &mail, nil
 }
 
+// UserAccessSecretName returns the secret name for the user object
 func (u User) UserAccessSecretName() types.NamespacedName {
 	return types.NamespacedName{
 		Namespace: u.Namespace,
@@ -122,6 +128,7 @@ func (u User) UserAccessSecretName() types.NamespacedName {
 	}
 }
 
+// DefaultUserProjectBindingName returns the default project for the user
 func (u User) DefaultUserProjectBindingName() types.NamespacedName {
 	return types.NamespacedName{
 		Namespace: u.Namespace,
@@ -135,7 +142,8 @@ func (u User) DefaultUserProjectBindingName() types.NamespacedName {
 type UserList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []User `json:"items"`
+
+	Items []User `json:"items"`
 }
 
 func init() {

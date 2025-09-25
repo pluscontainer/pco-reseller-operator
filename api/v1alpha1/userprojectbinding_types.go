@@ -25,7 +25,6 @@ import (
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -42,6 +41,7 @@ type UserProjectBindingStatus struct {
 	Conditions []metav1.Condition `json:"conditions"`
 }
 
+// AwaitReady blocks until the userprojectbinding is completely ready
 func (v *UserProjectBinding) AwaitReady(ctx context.Context, timeout time.Duration, client client.Client, logger logr.Logger) error {
 	timeoutContext, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
@@ -77,22 +77,25 @@ func (v *UserProjectBinding) awaitAllConditionsTrue(ctx context.Context, client 
 	out <- true
 }
 
+// UpdateUserProjectBindingCondition updates the given condition within the userprojectbinding resource and patches its status subresource
 func (r *UserProjectBinding) UpdateUserProjectBindingCondition(ctx context.Context, reconcileClient client.Client, reason UserProjectBindingReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(UserProjectBindingReady), reason.userProjectBindingStatus(), string(reason), message)
 }
 
+// UpdateUserCondition updates the given condition within the userprojectbinding resource and patches its status subresource
 func (r *UserProjectBinding) UpdateUserCondition(ctx context.Context, reconcileClient client.Client, reason UserReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(UserReady), reason.userStatus(), string(reason), message)
 }
 
+// UpdateProjectCondition updates the given condition within the userprojectbinding resource and patches its status subresource
 func (r *UserProjectBinding) UpdateProjectCondition(ctx context.Context, reconcileClient client.Client, reason ProjectReadyReasons, message string) error {
 	return r.updateCondition(ctx, reconcileClient, string(ProjectReady), reason.projectStatus(), string(reason), message)
 }
 
-func (r *UserProjectBinding) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status v1.ConditionStatus, reason string, message string) error {
+func (r *UserProjectBinding) updateCondition(ctx context.Context, reconcileClient client.Client, typeString string, status metav1.ConditionStatus, reason string, message string) error {
 	oldUser := r.DeepCopy()
 
-	meta.SetStatusCondition(&r.Status.Conditions, v1.Condition{
+	meta.SetStatusCondition(&r.Status.Conditions, metav1.Condition{
 		Type:    typeString,
 		Status:  status,
 		Reason:  reason,
@@ -114,6 +117,7 @@ type UserProjectBinding struct {
 	Status UserProjectBindingStatus `json:"status,omitempty"`
 }
 
+// ApplicationCredentialName returns the target application credential name
 func (upb UserProjectBinding) ApplicationCredentialName() string {
 	return fmt.Sprintf("%s-appcred", upb.Name)
 }
@@ -124,7 +128,8 @@ func (upb UserProjectBinding) ApplicationCredentialName() string {
 type UserProjectBindingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []UserProjectBinding `json:"items"`
+
+	Items []UserProjectBinding `json:"items"`
 }
 
 func init() {

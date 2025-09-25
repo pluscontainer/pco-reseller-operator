@@ -32,7 +32,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/predicate"
 
-	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	"github.com/sethvargo/go-password/password"
 )
@@ -40,6 +39,7 @@ import (
 // UserReconciler reconciles a User object
 type UserReconciler struct {
 	client.Client
+
 	Scheme *runtime.Scheme
 }
 
@@ -65,7 +65,7 @@ func (r *UserReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.
 	logger.Info("Reconciling User")
 
 	// Fetch the User instance
-	user := &v1alpha1.User{}
+	user := &pcov1alpha1.User{}
 	err := r.Get(ctx, req.NamespacedName, user)
 	if err != nil {
 		if errors.IsNotFound(err) {

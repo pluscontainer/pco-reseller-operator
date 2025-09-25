@@ -28,6 +28,7 @@ import (
 // log is for logging in this package.
 var userlog = logf.Log.WithName("user-resource")
 
+// SetupWebhookWithManager registers the webhook with the manager
 func (r *User) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).
@@ -67,7 +68,7 @@ func (r *User) ValidateCreate() (admission.Warnings, error) {
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *User) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
+func (r *User) ValidateUpdate(_ runtime.Object) (admission.Warnings, error) {
 	userlog.Info("validate update", "name", r.Name)
 
 	//All currently defined fields are mutable

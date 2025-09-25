@@ -34,7 +34,6 @@ import (
 
 	"github.com/pluscontainer/pco-reseller-cli/pkg/openapi"
 	"github.com/pluscontainer/pco-reseller-cli/pkg/psos"
-	"github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	pcov1alpha1 "github.com/pluscontainer/pco-reseller-operator/api/v1alpha1"
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 )
@@ -42,6 +41,7 @@ import (
 // ProjectReconciler reconciles a Project object
 type ProjectReconciler struct {
 	client.Client
+
 	Scheme *runtime.Scheme
 }
 
@@ -65,7 +65,7 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 	logger.Info("Reconciling Project")
 
 	// Fetch the Memcached instance
-	project := &v1alpha1.Project{}
+	project := &pcov1alpha1.Project{}
 	err := r.Get(ctx, req.NamespacedName, project)
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -119,13 +119,15 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 	}
 
 	//Initialize condition fields
-	r.initializeConditions(ctx, project)
+	if err := r.initializeConditions(ctx, project); err != nil {
+		return ctrl.Result{}, err
+	}
 
-	region := &v1alpha1.Region{}
+	region := &pcov1alpha1.Region{}
 	if err := r.Get(ctx, types.NamespacedName{Name: project.Spec.Region}, region); err != nil {
-		reason := v1alpha1.RegionUnknown
+		reason := pcov1alpha1.RegionUnknown
 		if errors.IsNotFound(err) {
-			reason = v1alpha1.RegionNotFound
+			reason = pcov1alpha1.RegionNotFound
 		}
 
 		if err := project.UpdateRegionCondition(ctx, r.Client, reason, err.Error()); err != nil {
@@ -138,7 +140,7 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 	//Check if region is ready
 
 	if awaitErr := region.AwaitReady(ctx, regionTimeout, r.Client, logger); awaitErr != nil {
-		if err := project.UpdateRegionCondition(ctx, r.Client, v1alpha1.RegionIsUnready, "Referenced region isn't ready"); err != nil {
+		if err := project.UpdateRegionCondition(ctx, r.Client, pcov1alpha1.RegionIsUnready, "Referenced region isn't ready"); err != nil {
 			return ctrl.Result{}, err
 		}
 
@@ -146,7 +148,7 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 		return ctrl.Result{}, awaitErr
 	}
 
-	if err := project.UpdateRegionCondition(ctx, r.Client, v1alpha1.RegionIsReady, fmt.Sprintf("Region %s is ready", region.Name)); err != nil {
+	if err := project.UpdateRegionCondition(ctx, r.Client, pcov1alpha1.RegionIsReady, fmt.Sprintf("Region %s is ready", region.Name)); err != nil {
 		return ctrl.Result{}, err
 	}
 
@@ -260,7 +262,7 @@ func (r *ProjectReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ct
 
 	logger.Info(fmt.Sprintf("Quota for project %s ensured", openStackProject.Id))
 
-	if err := project.UpdateProjectCondition(ctx, r.Client, v1alpha1.ProjectIsReady, fmt.Sprintf("Project %s ensured", openStackProject.Id)); err != nil {
+	if err := project.UpdateProjectCondition(ctx, r.Client, pcov1alpha1.ProjectIsReady, fmt.Sprintf("Project %s ensured", openStackProject.Id)); err != nil {
 		return ctrl.Result{}, err
 	}
 

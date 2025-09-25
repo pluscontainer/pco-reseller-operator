@@ -32,6 +32,7 @@ import (
 // log is for logging in this package.
 var regionlog = logf.Log.WithName("region-resource")
 
+// SetupWebhookWithManager registers the webhook with the manager
 func (r *Region) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
 		For(r).

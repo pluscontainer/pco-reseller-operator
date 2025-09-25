@@ -20,6 +20,7 @@ const (
 
 var errControllerIdNotSet = errors.New("controller id not set")
 
+// ControllerIdentifier fetches the pco-reseller-operator-id secret and retrieves the unique operator id from it
 func ControllerIdentifier(ctx context.Context, r client.Client) (*string, error) {
 	controllerNamespace := os.Getenv("CONTROLLER_NAMESPACE")
 
