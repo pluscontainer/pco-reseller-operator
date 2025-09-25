@@ -51,7 +51,17 @@ type RegionSpec struct {
 	// Password: string
 	//
 	// +optional
-	SecretRef corev1.ObjectReference `json:"secretRef,omitempty"`
+	SecretRef SecretRef `json:"secretRef,omitempty"`
+}
+
+// SecretRef defines the Reference to a Secret
+type SecretRef struct {
+	// Name of the Object
+	// +required
+	Name string `json:"name"`
+	// Namespace of the Object
+	// +required
+	Namespace string `json:"secretRef"`
 }
 
 // RegionStatus defines the observed state of Region
