@@ -18,7 +18,6 @@ package controller
 
 import (
 	"context"
-	"encoding/base64"
 	"time"
 
 	corev1 "k8s.io/api/core/v1"
@@ -117,46 +116,31 @@ func (r *RegionReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctr
 	}
 
 	// Get Endpoint Username and Password either from the Secret or from the CRD
-	Endpoint, Username, Password := "", "", ""
-	credentialSecret := corev1.Secret{}
-	err = r.Get(ctx, types.NamespacedName{
-		Name:      region.Spec.SecretRef.Name,
-		Namespace: region.Spec.SecretRef.Namespace,
-	}, &credentialSecret)
-	if err != nil {
-		if region.Spec.Endpoint == "" || region.Spec.Username == "" || region.Spec.Password == "" {
-			log.Log.Error(err, "could not get Secret under secretRef", "Region.SecretRef", region.Spec.SecretRef)
+	var endpoint, username, password string
+	if region.Spec.SecretRef != nil {
+		credentialSecret := corev1.Secret{}
+		err = r.Get(ctx, types.NamespacedName{
+			Name:      region.Spec.SecretRef.Name,
+			Namespace: region.Spec.SecretRef.Namespace,
+		}, &credentialSecret)
+		if err != nil {
 			return ctrl.Result{}, err
 		}
-		log.Log.Info("could not get Secret under secretRef, but the credentials were Specified in the CRD please consider moving the credentials to a Secret", "Region.SecretRef", region.Spec.SecretRef)
-		Endpoint = region.Spec.Endpoint
-		Username = region.Spec.Username
-		Password = region.Spec.Password
+		endpoint = string(credentialSecret.Data["endpoint"])
+		username = string(credentialSecret.Data["username"])
+		password = string(credentialSecret.Data["password"])
 	} else {
-		// Get Credentials from Secret Data
-		decode := func(field string, secret corev1.Secret) (string, error) {
-			out, err := base64.StdEncoding.DecodeString(string(secret.Data[field]))
-			if err != nil {
-				log.Log.Error(err, "could not read Field in Region", "Region.SecretRef", region.Spec.SecretRef, "FieldName", field)
-				return "", err
-			}
-			return string(out), nil
-		}
-		Endpoint, err = decode("Endpoint", credentialSecret)
-		if err != nil {
+		if region.Spec.Endpoint == "" || region.Spec.Username == "" || region.Spec.Password == "" {
+			log.Log.Error(err, "region without secretRef must define all of endpoint, username, password")
 			return ctrl.Result{}, err
 		}
-		Username, err = decode("Username", credentialSecret)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
-		Password, err = decode("Password", credentialSecret)
-		if err != nil {
-			return ctrl.Result{}, err
-		}
+		endpoint = region.Spec.Endpoint
+		username = region.Spec.Username
+		password = region.Spec.Password
+		log.Log.Info("specifying region credentials within CR is deprecated, please consider moving to secretRef")
 	}
+	_, err = psos.Login(endpoint, username, password)
 
-	_, err = psos.Login(Endpoint, Username, Password)
 	if err != nil {
 		if err := region.UpdateRegionCondition(ctx, r.Client, pcov1alpha1.RegionIsUnready, err.Error()); err != nil {
 			return ctrl.Result{}, err

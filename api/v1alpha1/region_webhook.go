@@ -56,18 +56,16 @@ var _ webhook.Validator = &Region{}
 func (r *Region) ValidateCreate() (admission.Warnings, error) {
 	regionlog.Info("validate create", "name", r.Name)
 
-	if utils.IsEmpty(r.Spec.Endpoint) {
-		return nil, errors.New("endpoint must be specified")
-	}
-	if utils.IsEmpty(r.Spec.Username) {
-		return nil, errors.New("username must be specified")
-	}
-	if utils.IsEmpty(r.Spec.Password) {
-		return nil, errors.New("password must be specified")
-	}
-
-	if err := r.validatePsosCredentials(); err != nil {
-		return nil, err
+	if r.Spec.SecretRef == nil {
+		if utils.IsEmpty(r.Spec.Endpoint) {
+			return nil, errors.New("endpoint must be specified if no Secret is specified")
+		}
+		if utils.IsEmpty(r.Spec.Username) {
+			return nil, errors.New("username must be specified if no Secret is specified")
+		}
+		if utils.IsEmpty(r.Spec.Password) {
+			return nil, errors.New("password must be specified if no Secret is specified")
+		}
 	}
 
 	// TODO(user): fill in your validation logic upon object creation.
@@ -96,13 +94,4 @@ func (r *Region) ValidateDelete() (admission.Warnings, error) {
 
 	// TODO(user): fill in your validation logic upon object deletion.
 	return nil, nil
-}
-
-func (r *Region) validatePsosCredentials() error {
-	_, err := psos.Login(r.Spec.Endpoint, r.Spec.Username, r.Spec.Password)
-	if err != nil {
-		return fmt.Errorf("couldn't authenticate with provided credentials: %s", err.Error())
-	}
-
-	return nil
 }

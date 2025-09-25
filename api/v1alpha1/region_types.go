@@ -22,7 +22,6 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
-	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -35,12 +34,17 @@ import (
 
 // RegionSpec defines the desired state of Region
 type RegionSpec struct {
+	// Endpoint defines the Adress of the PCO Reseller API
 	// Deprecated please use secretRef instead
 	// +optional
 	Endpoint string `json:"endpoint,omitempty"`
+
+	// Username defines the Username used to login to the PCO Reseller API
 	// Deprecated please use secretRef instead
 	// +optional
 	Username string `json:"username,omitempty"`
+
+	// Password defines the Password used to login to the PCO Reseller API
 	// Deprecated please use secretRef instead
 	// +optional
 	Password string `json:"password,omitempty"`
@@ -51,7 +55,7 @@ type RegionSpec struct {
 	// Password: string
 	//
 	// +optional
-	SecretRef SecretRef `json:"secretRef,omitempty"`
+	SecretRef *SecretRef `json:"secretRef,omitempty"`
 }
 
 // SecretRef defines the Reference to a Secret
