@@ -49,9 +49,9 @@ type RegionSpec struct {
 	Password string `json:"password,omitempty"`
 
 	// SecretRef represets the reference to a Secret with the Following Format:
-	// Endpoint: string
-	// Username: string
-	// Password: string
+	// endpoint: string
+	// username: string
+	// password: string
 	//
 	// +optional
 	SecretRef *SecretRef `json:"secretRef,omitempty"`
@@ -64,7 +64,7 @@ type SecretRef struct {
 	Name string `json:"name"`
 	// Namespace of the Object
 	// +required
-	Namespace string `json:"secretRef"`
+	Namespace string `json:"namespace"`
 }
 
 // RegionStatus defines the observed state of Region
