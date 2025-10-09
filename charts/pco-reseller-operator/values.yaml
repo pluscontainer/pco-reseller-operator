@@ -32,7 +32,7 @@ controllerManager:
         - ALL
     image:
       repository: ghcr.io/pluscontainer/pco-reseller-operator
-      tag: latest@sha256:6a864f10a0d75f629036b0aca7a265a15b122ea8f1a5ff727d156a4dc97442e3
+      tag: latest@sha256:6b3347c7c84eeeb6b4454179ad8ae16dc80e6f8df51bc34a05c2fde051a32d29
     imagePullPolicy: Always
     resources:
       limits:
