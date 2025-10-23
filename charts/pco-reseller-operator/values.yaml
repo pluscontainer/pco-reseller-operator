@@ -12,7 +12,7 @@ controllerManager:
         - ALL
     image:
       repository: gcr.io/kubebuilder/kube-rbac-proxy
-      tag: v0.16.0@sha256:771a9a173e033a3ad8b46f5c00a7036eaa88c8d8d1fbd89217325168998113ea
+      tag: v0.13.1
     resources:
       limits:
         cpu: 500m
@@ -32,7 +32,7 @@ controllerManager:
         - ALL
     image:
       repository: ghcr.io/pluscontainer/pco-reseller-operator
-      tag: latest@sha256:6a864f10a0d75f629036b0aca7a265a15b122ea8f1a5ff727d156a4dc97442e3
+      tag: latest
     imagePullPolicy: Always
     resources:
       limits:
@@ -41,7 +41,11 @@ controllerManager:
       requests:
         cpu: 10m
         memory: 64Mi
+  podSecurityContext:
+    runAsNonRoot: true
   replicas: 1
+  serviceAccount:
+    annotations: {}
 kubernetesClusterDomain: cluster.local
 metricsService:
   ports:
