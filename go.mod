@@ -12,7 +12,7 @@ require (
 	k8s.io/api v0.28.15
 	k8s.io/apimachinery v0.28.15
 	k8s.io/client-go v0.28.15
-	sigs.k8s.io/controller-runtime v0.16.6
+	sigs.k8s.io/controller-runtime v0.22.4
 )
 
 require (
