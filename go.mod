@@ -5,7 +5,7 @@ go 1.25
 require (
 	github.com/go-logr/logr v1.4.3
 	github.com/gophercloud/gophercloud v1.14.1
-	github.com/onsi/ginkgo/v2 v2.27.2
+	github.com/onsi/ginkgo/v2 v2.27.3
 	github.com/onsi/gomega v1.38.2
 	github.com/pluscontainer/pco-reseller-cli v0.1.8
 	github.com/sethvargo/go-password v0.3.1
