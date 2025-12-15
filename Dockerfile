@@ -1,5 +1,5 @@
 # Build the manager binary
-FROM golang:1.25@sha256:1c91b4f4391774a73d6489576878ad3ff3161ebc8c78466ec26e83474855bfcf as builder
+FROM golang:1.25@sha256:36b4f45d2874905b9e8573b783292629bcb346d0a70d8d7150b6df545234818f as builder
 ARG TARGETOS
 
 WORKDIR /workspace
