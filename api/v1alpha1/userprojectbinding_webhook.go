@@ -17,7 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"context"
 	"errors"
+	"fmt"
 
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -33,24 +35,32 @@ var userprojectbindinglog = logf.Log.WithName("userprojectbinding-resource")
 // SetupWebhookWithManager registers the webhook within the manager
 func (r *UserProjectBinding) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
+		WithValidator(&UserProjectBindingCustomValidator{}).
 		For(r).
 		Complete()
 }
 
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
-//+kubebuilder:webhook:path=/validate-pco-plusserver-com-v1alpha1-userprojectbinding,mutating=false,failurePolicy=fail,sideEffects=None,groups=pco.plusserver.com,resources=userprojectbindings,verbs=create;update,versions=v1alpha1,name=vuserprojectbinding.kb.io,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-pco-plusserver-com-v1alpha1-userprojectbinding,mutating=false,failurePolicy=fail,sideEffects=None,groups=pco.plusserver.com,resources=userprojectbindings,verbs=create;update,versions=v1alpha1,name=vuserprojectbinding.kb.io,admissionReviewVersions=v1
+type UserProjectBindingCustomValidator struct {
+	// TODO(user): Add more fields as needed for validation
+}
 
-var _ webhook.Validator = &UserProjectBinding{}
+var _ webhook.CustomValidator = &UserProjectBindingCustomValidator{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *UserProjectBinding) ValidateCreate() (admission.Warnings, error) {
-	userprojectbindinglog.Info("validate create", "name", r.Name)
+func (v *UserProjectBindingCustomValidator) ValidateCreate(ctx context.Context, obj runtime.Object) (admission.Warnings, error) {
+	upb, ok := obj.(*UserProjectBinding)
+	if !ok {
+		return nil, fmt.Errorf("expected a UserProjectBinding object but got %T", obj)
+	}
+	userprojectbindinglog.Info("validate create", "name", upb.Name)
 
-	if utils.IsEmpty(r.Spec.Project) {
+	if utils.IsEmpty(upb.Spec.Project) {
 		return nil, errors.New(".spec.project must be specified")
 	}
 
-	if utils.IsEmpty(r.Spec.User) {
+	if utils.IsEmpty(upb.Spec.User) {
 		return nil, errors.New(".spec.user must be specified")
 	}
 
@@ -58,22 +68,33 @@ func (r *UserProjectBinding) ValidateCreate() (admission.Warnings, error) {
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *UserProjectBinding) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	userprojectbindinglog.Info("validate update", "name", r.Name)
-	oldUser := old.(*UserProjectBinding)
+func (v *UserProjectBindingCustomValidator) ValidateUpdate(ctx context.Context, newObj runtime.Object, oldObj runtime.Object) (admission.Warnings, error) {
+	newUpb, ok := newObj.(*UserProjectBinding)
+	if !ok {
+		return nil, fmt.Errorf("expected a UserProjectBinding object but got %T", newObj)
+	}
+	oldUpb, ok := oldObj.(*UserProjectBinding)
+	if !ok {
+		return nil, fmt.Errorf("expected a UserProjectBinding object but got %T", oldObj)
+	}
+	userprojectbindinglog.Info("validate update", "name", newUpb.Name)
 
-	if oldUser.Spec.Project != r.Spec.Project {
+	if oldUpb.Spec.Project != newUpb.Spec.Project {
 		return nil, errors.New(".spec.project is immutable")
 	}
-	if oldUser.Spec.User != r.Spec.User {
+	if oldUpb.Spec.User != newUpb.Spec.User {
 		return nil, errors.New(".spec.user is immutable")
 	}
 	return nil, nil
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *UserProjectBinding) ValidateDelete() (admission.Warnings, error) {
-	userprojectbindinglog.Info("validate delete", "name", r.Name)
+func (v *UserProjectBindingCustomValidator) ValidateDelete(ctx context.Context, obj runtime.Object) (admission.Warnings, error) {
+	upb, ok := obj.(*UserProjectBinding)
+	if !ok {
+		return nil, fmt.Errorf("expected a UserProjectBinding object but got %T", obj)
+	}
+	userprojectbindinglog.Info("validate delete", "name", upb.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
 	return nil, nil
