@@ -17,7 +17,9 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"context"
 	"errors"
+	"fmt"
 
 	"github.com/pluscontainer/pco-reseller-operator/internal/utils"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -33,36 +35,38 @@ var regionlog = logf.Log.WithName("region-resource")
 // SetupWebhookWithManager registers the webhook with the manager
 func (r *Region) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
+		WithValidator(&RegionCustomValidator{}).
 		For(r).
 		Complete()
 }
 
 //+kubebuilder:webhook:path=/mutate-pco-plusserver-com-v1alpha1-region,mutating=true,failurePolicy=fail,sideEffects=None,groups=pco.plusserver.com,resources=regions,verbs=create;update,versions=v1alpha1,name=mregion.kb.io,admissionReviewVersions=v1
 
-var _ webhook.Defaulter = &Region{}
-
-// Default implements webhook.Defaulter so a webhook will be registered for the type
-func (r *Region) Default() {
-	projectlog.Info("default", "name", r.Name)
-}
-
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
 //+kubebuilder:webhook:path=/validate-pco-plusserver-com-v1alpha1-region,mutating=false,failurePolicy=fail,sideEffects=None,groups=pco.plusserver.com,resources=regions,verbs=create;update,versions=v1alpha1,name=vregion.kb.io,admissionReviewVersions=v1
 
-var _ webhook.Validator = &Region{}
+type RegionCustomValidator struct {
+	// TODO(user): Add more fields as needed for validation
+}
+
+var _ webhook.CustomValidator = &RegionCustomValidator{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
-func (r *Region) ValidateCreate() (admission.Warnings, error) {
-	regionlog.Info("validate create", "name", r.Name)
+func (v *RegionCustomValidator) ValidateCreate(ctx context.Context, obj runtime.Object) (admission.Warnings, error) {
+	region, ok := obj.(*Region)
+	if !ok {
+		return nil, fmt.Errorf("expected a Region object but got %T", obj)
+	}
+	regionlog.Info("validate create", "name", region.Name)
 
-	if r.Spec.SecretRef == nil {
-		if utils.IsEmpty(r.Spec.Endpoint) {
+	if region.Spec.SecretRef == nil {
+		if utils.IsEmpty(region.Spec.Endpoint) {
 			return nil, errors.New("endpoint must be specified if no Secret is specified")
 		}
-		if utils.IsEmpty(r.Spec.Username) {
+		if utils.IsEmpty(region.Spec.Username) {
 			return nil, errors.New("username must be specified if no Secret is specified")
 		}
-		if utils.IsEmpty(r.Spec.Password) {
+		if utils.IsEmpty(region.Spec.Password) {
 			return nil, errors.New("password must be specified if no Secret is specified")
 		}
 	}
@@ -72,11 +76,18 @@ func (r *Region) ValidateCreate() (admission.Warnings, error) {
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
-func (r *Region) ValidateUpdate(old runtime.Object) (admission.Warnings, error) {
-	regionlog.Info("validate update", "name", r.Name)
+func (v *RegionCustomValidator) ValidateUpdate(ctx context.Context, newObj runtime.Object, oldObj runtime.Object) (admission.Warnings, error) {
+	oldRegion, ok := oldObj.(*Region)
+	if !ok {
+		return nil, fmt.Errorf("expected a Region object but got %T", oldObj)
+	}
+	newRegion, ok := newObj.(*Region)
+	if !ok {
+		return nil, fmt.Errorf("expected a Region object but got %T", newObj)
+	}
+	regionlog.Info("validate update", "name", oldRegion.Name)
 
-	oldRegion := old.(*Region)
-	if oldRegion.Spec.Endpoint != r.Spec.Endpoint {
+	if oldRegion.Spec.Endpoint != newRegion.Spec.Endpoint {
 		return nil, errors.New("endpoint is immutable")
 	}
 
@@ -84,8 +95,12 @@ func (r *Region) ValidateUpdate(old runtime.Object) (admission.Warnings, error) 
 }
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
-func (r *Region) ValidateDelete() (admission.Warnings, error) {
-	regionlog.Info("validate delete", "name", r.Name)
+func (v *RegionCustomValidator) ValidateDelete(ctx context.Context, obj runtime.Object) (admission.Warnings, error) {
+	region, ok := obj.(*Region)
+	if !ok {
+		return nil, fmt.Errorf("expected a Region object but got %T", obj)
+	}
+	regionlog.Info("validate delete", "name", region.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
 	return nil, nil
