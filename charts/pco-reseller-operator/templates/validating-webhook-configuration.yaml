@@ -67,23 +67,3 @@ webhooks:
     resources:
     - users
   sideEffects: None
-- admissionReviewVersions:
-  - v1
-  clientConfig:
-    service:
-      name: '{{ include "chart.fullname" . }}-webhook-service'
-      namespace: '{{ .Release.Namespace }}'
-      path: /validate-pco-plusserver-com-v1alpha1-userprojectbinding
-  failurePolicy: Fail
-  name: vuserprojectbinding.kb.io
-  rules:
-  - apiGroups:
-    - pco.plusserver.com
-    apiVersions:
-    - v1alpha1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - userprojectbindings
-  sideEffects: None

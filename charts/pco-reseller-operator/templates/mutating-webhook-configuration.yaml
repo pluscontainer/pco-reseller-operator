@@ -47,23 +47,3 @@ webhooks:
     resources:
     - regions
   sideEffects: None
-- admissionReviewVersions:
-  - v1
-  clientConfig:
-    service:
-      name: '{{ include "chart.fullname" . }}-webhook-service'
-      namespace: '{{ .Release.Namespace }}'
-      path: /mutate-pco-plusserver-com-v1alpha1-user
-  failurePolicy: Fail
-  name: muser.kb.io
-  rules:
-  - apiGroups:
-    - pco.plusserver.com
-    apiVersions:
-    - v1alpha1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - users
-  sideEffects: None

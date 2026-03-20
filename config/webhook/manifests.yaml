@@ -44,26 +44,6 @@ webhooks:
     resources:
     - regions
   sideEffects: None
-- admissionReviewVersions:
-  - v1
-  clientConfig:
-    service:
-      name: webhook-service
-      namespace: system
-      path: /mutate-pco-plusserver-com-v1alpha1-user
-  failurePolicy: Fail
-  name: muser.kb.io
-  rules:
-  - apiGroups:
-    - pco.plusserver.com
-    apiVersions:
-    - v1alpha1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - users
-  sideEffects: None
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
@@ -129,24 +109,4 @@ webhooks:
     - UPDATE
     resources:
     - users
-  sideEffects: None
-- admissionReviewVersions:
-  - v1
-  clientConfig:
-    service:
-      name: webhook-service
-      namespace: system
-      path: /validate-pco-plusserver-com-v1alpha1-userprojectbinding
-  failurePolicy: Fail
-  name: vuserprojectbinding.kb.io
-  rules:
-  - apiGroups:
-    - pco.plusserver.com
-    apiVersions:
-    - v1alpha1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - userprojectbindings
   sideEffects: None
