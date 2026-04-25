@@ -9,9 +9,9 @@ require (
 	github.com/onsi/gomega v1.38.2
 	github.com/pluscontainer/pco-reseller-cli v0.1.8
 	github.com/sethvargo/go-password v0.3.1
-	k8s.io/api v0.33.7
-	k8s.io/apimachinery v0.33.7
-	k8s.io/client-go v0.33.7
+	k8s.io/api v0.33.11
+	k8s.io/apimachinery v0.33.11
+	k8s.io/client-go v0.33.11
 	sigs.k8s.io/controller-runtime v0.20.3
 )
 
@@ -81,14 +81,14 @@ require (
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
-	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
+	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.58.0 // indirect
-	go.opentelemetry.io/otel v1.33.0 // indirect
+	go.opentelemetry.io/otel v1.41.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.33.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.33.0 // indirect
-	go.opentelemetry.io/otel/metric v1.33.0 // indirect
+	go.opentelemetry.io/otel/metric v1.41.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.33.0 // indirect
-	go.opentelemetry.io/otel/trace v1.33.0 // indirect
+	go.opentelemetry.io/otel/trace v1.41.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.4.0 // indirect
 	go.uber.org/automaxprocs v1.6.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
@@ -116,7 +116,7 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/apiextensions-apiserver v0.32.1 // indirect
 	k8s.io/apiserver v0.32.1 // indirect
-	k8s.io/component-base v0.33.7 // indirect
+	k8s.io/component-base v0.33.11 // indirect
 	k8s.io/klog/v2 v2.130.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20250318190949-c8a335a9a2ff // indirect
 	k8s.io/utils v0.0.0-20241104100929-3ea5e8cea738 // indirect
@@ -130,7 +130,7 @@ require (
 replace (
 	k8s.io/api => k8s.io/api v0.33.7
 	k8s.io/apimachinery => k8s.io/apimachinery v0.33.7
-	k8s.io/apiserver => k8s.io/apiserver v0.33.7
+	k8s.io/apiserver => k8s.io/apiserver v0.33.11
 	k8s.io/autoscaler => k8s.io/autoscaler v0.0.0-20220531185024-cc90d57b7fe1 // translates to k8s.io/autoscaler/vertical-pod-autoscaler@v0.11.0
 	k8s.io/autoscaler/vertical-pod-autoscaler => k8s.io/autoscaler/vertical-pod-autoscaler v1.4.2
 	k8s.io/client-go => k8s.io/client-go v0.33.7
