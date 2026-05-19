@@ -27,23 +27,3 @@ webhooks:
     resources:
     - projects
   sideEffects: None
-- admissionReviewVersions:
-  - v1
-  clientConfig:
-    service:
-      name: '{{ include "chart.fullname" . }}-webhook-service'
-      namespace: '{{ .Release.Namespace }}'
-      path: /mutate-pco-plusserver-com-v1alpha1-region
-  failurePolicy: Fail
-  name: mregion.kb.io
-  rules:
-  - apiGroups:
-    - pco.plusserver.com
-    apiVersions:
-    - v1alpha1
-    operations:
-    - CREATE
-    - UPDATE
-    resources:
-    - regions
-  sideEffects: None
