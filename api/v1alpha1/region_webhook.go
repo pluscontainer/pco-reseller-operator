@@ -40,8 +40,6 @@ func (r *Region) SetupWebhookWithManager(mgr ctrl.Manager) error {
 		Complete()
 }
 
-//+kubebuilder:webhook:path=/mutate-pco-plusserver-com-v1alpha1-region,mutating=true,failurePolicy=fail,sideEffects=None,groups=pco.plusserver.com,resources=regions,verbs=create;update,versions=v1alpha1,name=mregion.kb.io,admissionReviewVersions=v1
-
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
 //+kubebuilder:webhook:path=/validate-pco-plusserver-com-v1alpha1-region,mutating=false,failurePolicy=fail,sideEffects=None,groups=pco.plusserver.com,resources=regions,verbs=create;update,versions=v1alpha1,name=vregion.kb.io,admissionReviewVersions=v1
 
