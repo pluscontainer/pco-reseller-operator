@@ -34,9 +34,8 @@ var userprojectbindinglog = logf.Log.WithName("userprojectbinding-resource")
 
 // SetupWebhookWithManager registers the webhook within the manager
 func (r *UserProjectBinding) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).
-		WithValidator(&UserProjectBindingCustomValidator{}).
-		For(r).
+	return ctrl.NewWebhookManagedBy(mgr, r).
+		WithCustomValidator(&UserProjectBindingCustomValidator{}).
 		Complete()
 }
 

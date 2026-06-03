@@ -34,10 +34,9 @@ var projectlog = logf.Log.WithName("project-resource")
 
 // SetupWebhookWithManager registers the webhook within the manager
 func (r *Project) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).
-		For(r).
-		WithDefaulter(&ProjectCustomDefaulter{}).
-		WithValidator(&ProjectCustomValidator{}).
+	return ctrl.NewWebhookManagedBy(mgr, r).
+		WithCustomDefaulter(&ProjectCustomDefaulter{}).
+		WithCustomValidator(&ProjectCustomValidator{}).
 		Complete()
 }
 

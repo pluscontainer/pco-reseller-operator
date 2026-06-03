@@ -34,9 +34,8 @@ var regionlog = logf.Log.WithName("region-resource")
 
 // SetupWebhookWithManager registers the webhook with the manager
 func (r *Region) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).
-		WithValidator(&RegionCustomValidator{}).
-		For(r).
+	return ctrl.NewWebhookManagedBy(mgr, r).
+		WithCustomValidator(&RegionCustomValidator{}).
 		Complete()
 }
 

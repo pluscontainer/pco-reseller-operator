@@ -33,10 +33,9 @@ var userlog = logf.Log.WithName("user-resource")
 
 // SetupWebhookWithManager registers the webhook with the manager
 func (r *User) SetupWebhookWithManager(mgr ctrl.Manager) error {
-	return ctrl.NewWebhookManagedBy(mgr).
-		For(r).
-		WithDefaulter(&UserCustomDefaulter{}).
-		WithValidator(&UserCustomValidator{}).
+	return ctrl.NewWebhookManagedBy(mgr, r).
+		WithCustomDefaulter(&UserCustomDefaulter{}).
+		WithCustomValidator(&UserCustomValidator{}).
 		Complete()
 }
 
